@@ -5,4 +5,8 @@
     <string name="drawer">Drawer</string>
     <string name="finished">Finished</string>
     <string name="setting">Setting</string>
+    <string name="add">Add</string>
+    <string name="delete_success">Delete Success</string>
+    <string name="undo">UnDo</string>
+    <string name="set_finish_success">Set Finish Success</string>
 </resources>

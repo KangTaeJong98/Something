@@ -1,16 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Something" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Something" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">?attr/onBackground</item>
+        <item name="colorPrimaryVariant">?attr/onBackgroundVariant</item>
+        <item name="colorOnPrimary">?attr/onBackgroundAccent</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">?attr/onBackground</item>
+        <item name="colorSecondaryVariant">?attr/onBackgroundVariant</item>
+        <item name="colorOnSecondary">?attr/onBackgroundAccent</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="colorControlNormal">?attr/onBackgroundAccent</item>
+        <item name="toolbarStyle">@style/Theme.Something.Toolbar</item>
+
+        <item name="onBackground">@color/onDarkColor</item>
+        <item name="onBackgroundVariant">@color/onDarkVariantColor</item>
+        <item name="onBackgroundAccent">@color/onDarkAccentColor</item>
+
+        <item name="onElementBackground">@color/white</item>
+        <item name="onElementBackgroundVariant">@color/white</item>
+        <item name="onElementBackgroundAccent">@color/black</item>
+
+        <item name="onToDoTitleTextColor">@color/black</item>
+        <item name="onToDoTermTextColor">@color/gray</item>
+        <item name="onToDoDescriptionTextColor">@color/gray</item>
+
+        <item name="onBaseMargin">10dp</item>
+        <item name="onMinusBaseMargin">-10dp</item>
+    </style>
+
+    <style name="Theme.Something.Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/onBackgroundVariant</item>
+        <item name="titleTextColor">?attr/onBackgroundAccent</item>
     </style>
 </resources>

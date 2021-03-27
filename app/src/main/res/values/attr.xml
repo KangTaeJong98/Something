@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="onBackground" format="color" />
+    <attr name="onBackgroundVariant" format="color" />
+    <attr name="onBackgroundAccent" format="color" />
+
+    <attr name="onElementBackground" format="color" />
+    <attr name="onElementBackgroundVariant" format="color" />
+    <attr name="onElementBackgroundAccent" format="color" />
+
+    <attr name="onBaseMargin" format="dimension" />
+    <attr name="onMinusBaseMargin" format="dimension" />
+
+    <attr name="onToDoTitleTextColor" format="color" />
+    <attr name="onToDoTermTextColor" format="color" />
+    <attr name="onToDoDescriptionTextColor" format="color" />
+</resources>

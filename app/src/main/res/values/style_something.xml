@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Something.ToDo.Title" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">?attr/onToDoTitleTextColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.Something.ToDo.Term" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">?attr/onToDoTermTextColor</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.Something.ToDo.Description" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">?attr/onToDoDescriptionTextColor</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

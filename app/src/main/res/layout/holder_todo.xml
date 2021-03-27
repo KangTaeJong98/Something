@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.taetae98.something.dto.ToDo" />
+        <import type="android.view.View" />
+
+        <variable
+            name="todo"
+            type="ToDo" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:background="?attr/onElementBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Theme.Something.ToDo.Title"
+                android:drawableStart="@{todo.finished ? @drawable/ic_finished_on_title : null}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="?attr/onBaseMargin"
+                android:text="@{todo.title}"
+                android:visibility="@{todo.title.empty ? View.GONE : View.VISIBLE}"
+                tools:text="Title"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Theme.Something.ToDo.Term"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="?attr/onBaseMargin"
+                android:layout_marginTop="?attr/onMinusBaseMargin"
+                android:layout_marginEnd="?attr/onBaseMargin"
+                android:layout_marginBottom="?attr/onBaseMargin"
+                android:visibility="@{todo.hasTerm ? View.VISIBLE : View.GONE}"
+                app:todoTerm="@{todo}"
+                tools:text="2020 / 1 / 1 ~ 2020 / 12 / 31" />
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/Theme.Something.ToDo.Description"
+                android:text="@{todo.description}"
+                android:visibility="@{todo.description.empty ? View.GONE : View.VISIBLE}"
+                android:layout_margin="?attr/onBaseMargin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Description"/>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

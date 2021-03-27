@@ -1,5 +1,6 @@
 package com.taetae98.something.database
 
+import androidx.lifecycle.LiveData
 import com.taetae98.something.dto.ToDo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,5 +28,9 @@ class ToDoRepository @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             todoDao.delete(todo)
         }
+    }
+
+    fun selectToDoLiveData(): LiveData<List<ToDo>> {
+        return todoDao.selectToDoLiveData()
     }
 }
