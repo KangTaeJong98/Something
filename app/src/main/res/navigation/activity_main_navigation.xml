@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main_navigation.xml"
+    app:startDestination="@id/toDoFragment">
+
+    <fragment
+        android:id="@+id/calendarFragment"
+        android:name="com.taetae98.something.fragment.CalendarFragment"
+        android:label="CalendarFragment" />
+    <fragment
+        android:id="@+id/drawerEditFragment"
+        android:name="com.taetae98.something.fragment.DrawerEditFragment"
+        android:label="DrawerEditFragment" />
+    <fragment
+        android:id="@+id/finishedFragment"
+        android:name="com.taetae98.something.fragment.FinishedFragment"
+        android:label="FinishedFragment" />
+    <fragment
+        android:id="@+id/drawerFragment"
+        android:name="com.taetae98.something.fragment.DrawerFragment"
+        android:label="DrawerFragment" />
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.taetae98.something.fragment.SettingFragment"
+        android:label="SettingFragment" />
+    <fragment
+        android:id="@+id/toDoEditFragment"
+        android:name="com.taetae98.something.fragment.ToDoEditFragment"
+        android:label="ToDoEditFragment" />
+    <fragment
+        android:id="@+id/toDoFragment"
+        android:name="com.taetae98.something.fragment.ToDoFragment"
+        android:label="ToDoFragment" />
+    <action
+        android:id="@+id/action_global_drawerEditFragment"
+        app:destination="@id/drawerEditFragment" />
+    <action
+        android:id="@+id/action_global_toDoEditFragment"
+        app:destination="@id/toDoEditFragment" />
+</navigation>

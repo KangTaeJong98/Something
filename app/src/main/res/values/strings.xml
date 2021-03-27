@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Something</string>
+    <string name="todo">ToDo</string>
+    <string name="calendar">Calendar</string>
+    <string name="drawer">Drawer</string>
+    <string name="finished">Finished</string>
+    <string name="setting">Setting</string>
 </resources>
