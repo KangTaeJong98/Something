@@ -31,6 +31,6 @@ class ToDoRepository @Inject constructor(
     }
 
     fun selectToDoLiveData(): LiveData<List<ToDo>> {
-        return todoDao.selectToDoLiveData()
+        return todoDao.selectLiveData()
     }
 }

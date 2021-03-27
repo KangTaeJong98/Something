@@ -38,8 +38,7 @@ abstract class AppDatabase : RoomDatabase() {
                                                             1. Click to edit.
                                                             2. Long click to menu.
                                                             3. Swipe to set finished
-                                                        """.trimIndent(),
-                                                        drawerId = 1L
+                                                        """.trimIndent()
                                                 )
                                         )
                                     }

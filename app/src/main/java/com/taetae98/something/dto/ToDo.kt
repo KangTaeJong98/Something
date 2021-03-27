@@ -23,7 +23,7 @@ data class ToDo(
         var id: Long = 0L,
         var title: String = "",
         var description: String = "",
-        var drawerId: Long = 0L,
+        var drawerId: Long = 1L,
         var isFinished: Boolean = false,
         var isOnTop: Boolean = false,
         var isSticky: Boolean = false,

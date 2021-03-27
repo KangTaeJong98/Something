@@ -13,5 +13,5 @@ interface ToDoDao : BaseDao<ToDo> {
     }
 
     @Query("SELECT * FROM ToDo $ORDER")
-    fun selectToDoLiveData(): LiveData<List<ToDo>>
+    fun selectLiveData(): LiveData<List<ToDo>>
 }

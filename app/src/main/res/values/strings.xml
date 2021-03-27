@@ -9,4 +9,17 @@
     <string name="delete_success">Delete Success</string>
     <string name="undo">UnDo</string>
     <string name="set_finish_success">Set Finish Success</string>
+    <string name="mark_at_the_top">Mart at the top.</string>
+    <string name="show_when_unlock_the_phone">Show when unlock the phone.</string>
+    <string name="term">Term</string>
+    <string name="begin">Begin</string>
+    <string name="end">End</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="finish">Finish</string>
+    <string name="permission_request">Permission Request</string>
+    <string name="require_permission">Permissions are required due to Google policy.</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="fill_ther_title">Fill the title.</string>
 </resources>

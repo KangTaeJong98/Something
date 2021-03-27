@@ -28,4 +28,8 @@ class DrawerRepository @Inject constructor(
             drawerDao.delete(drawer)
         }
     }
+
+    suspend fun select(): List<Drawer> {
+        return drawerDao.select()
+    }
 }
