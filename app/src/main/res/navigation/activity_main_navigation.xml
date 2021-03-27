@@ -7,27 +7,27 @@
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.taetae98.something.fragment.CalendarFragment"
-        android:label="CalendarFragment" />
+        android:label="@string/calendar" />
     <fragment
         android:id="@+id/drawerEditFragment"
         android:name="com.taetae98.something.fragment.DrawerEditFragment"
-        android:label="DrawerEditFragment" />
+        android:label="@string/edit" />
     <fragment
         android:id="@+id/finishedFragment"
         android:name="com.taetae98.something.fragment.FinishedFragment"
-        android:label="FinishedFragment" />
+        android:label="@string/finished_todo" />
     <fragment
         android:id="@+id/drawerFragment"
         android:name="com.taetae98.something.fragment.DrawerFragment"
-        android:label="DrawerFragment" />
+        android:label="@string/drawer" />
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.taetae98.something.fragment.SettingFragment"
-        android:label="SettingFragment" />
+        android:label="@string/setting" />
     <fragment
         android:id="@+id/todoEditFragment"
         android:name="com.taetae98.something.fragment.ToDoEditFragment"
-        android:label="ToDoEditFragment" >
+        android:label="@string/edit" >
         <argument
             android:name="todo"
             app:argType="com.taetae98.something.dto.ToDo" />
@@ -35,7 +35,7 @@
     <fragment
         android:id="@+id/todoFragment"
         android:name="com.taetae98.something.fragment.ToDoFragment"
-        android:label="ToDoFragment" />
+        android:label="@string/todo" />
     <action
         android:id="@+id/action_global_drawerEditFragment"
         app:destination="@id/drawerEditFragment" />

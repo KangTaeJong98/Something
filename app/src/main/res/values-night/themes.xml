@@ -21,7 +21,7 @@
 
         <item name="onElementBackground">@color/white</item>
         <item name="onElementBackgroundVariant">@color/white</item>
-        <item name="onElementBackgroundAccent">@color/black</item>
+        <item name="onElementBackgroundAccent">@color/onBlueVariantColor</item>
 
         <item name="onToDoTitleTextColor">@color/black</item>
         <item name="onToDoTermTextColor">@color/gray</item>

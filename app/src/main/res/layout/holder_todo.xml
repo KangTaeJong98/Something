@@ -23,7 +23,8 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/Theme.Something.ToDo.Title"
-                android:drawableStart="@{todo.finished ? @drawable/ic_finished_on_title : null}"
+                android:drawableStart="@{todo.finished ? @drawable/ic_finished : null}"
+                android:drawableTint="?attr/onElementBackgroundAccent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="?attr/onBaseMargin"
