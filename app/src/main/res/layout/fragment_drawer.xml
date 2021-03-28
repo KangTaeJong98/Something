@@ -1,13 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View.OnClickListener" />
 
+        <variable
+            name="onEdit"
+            type="OnClickListener" />
     </data>
 
-    <TextView
-        android:text="Drawer"
-        android:gravity="center"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:background="?attr/onBackground"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.taetae98.something.view.DrawerRecyclerView
+            android:id="@+id/drawer_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            app:layout_behavior=".utility.FloatingActionButtonScrollBehavior"
+            android:onClick="@{onEdit}"
+            android:src="@drawable/ic_add"
+            android:contentDescription="@string/add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="?attr/onBaseMargin"
+            app:tint="?attr/onBackgroundAccent"
+            app:backgroundTint="?attr/onBackgroundVariant"
+            app:layout_anchor="@id/drawer_recycler_view"
+            app:layout_anchorGravity="end|bottom" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

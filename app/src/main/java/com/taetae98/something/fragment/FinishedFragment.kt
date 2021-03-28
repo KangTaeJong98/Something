@@ -11,11 +11,14 @@ import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentFinishedBinding
 import com.taetae98.something.viewmodel.ToDoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FinishedFragment : BaseFragment<FragmentFinishedBinding>(R.layout.fragment_finished) {
     private val todoViewModel by activityViewModels<ToDoViewModel>()
-    private val todoAdapter by lazy { ToDoAdapter() }
+
+    @Inject
+    lateinit var todoAdapter: ToDoAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

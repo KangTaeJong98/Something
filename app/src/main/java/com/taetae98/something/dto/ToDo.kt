@@ -13,7 +13,7 @@ import com.taetae98.something.utility.Time
                     entity = Drawer::class,
                     parentColumns = ["id"],
                     childColumns = ["drawerId"],
-                    onDelete = ForeignKey.CASCADE,
+                    onDelete = ForeignKey.SET_DEFAULT,
                     onUpdate = ForeignKey.CASCADE
             )
         ]

@@ -14,11 +14,14 @@ import com.taetae98.something.databinding.FragmentTodoBinding
 import com.taetae98.something.dto.ToDo
 import com.taetae98.something.viewmodel.ToDoViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
     private val todoViewModel by activityViewModels<ToDoViewModel>()
-    private val todoAdapter by lazy { ToDoAdapter() }
+
+    @Inject
+    lateinit var todoAdapter: ToDoAdapter
 
     init {
         setHasOptionsMenu(true)

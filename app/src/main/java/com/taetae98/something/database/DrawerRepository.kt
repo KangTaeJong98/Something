@@ -1,5 +1,6 @@
 package com.taetae98.something.database
 
+import androidx.lifecycle.LiveData
 import com.taetae98.something.dto.Drawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,5 +32,9 @@ class DrawerRepository @Inject constructor(
 
     suspend fun select(): List<Drawer> {
         return drawerDao.select()
+    }
+
+    fun selectLiveData(): LiveData<List<Drawer>> {
+        return drawerDao.selectLiveData()
     }
 }

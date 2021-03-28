@@ -11,7 +11,11 @@
     <fragment
         android:id="@+id/drawerEditFragment"
         android:name="com.taetae98.something.fragment.DrawerEditFragment"
-        android:label="@string/edit" />
+        android:label="@string/edit" >
+        <argument
+            android:name="drawer"
+            app:argType="com.taetae98.something.dto.Drawer" />
+    </fragment>
     <fragment
         android:id="@+id/finishedFragment"
         android:name="com.taetae98.something.fragment.FinishedFragment"

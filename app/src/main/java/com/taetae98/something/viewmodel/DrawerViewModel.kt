@@ -10,4 +10,6 @@ import javax.inject.Inject
 class DrawerViewModel @Inject constructor(
     private val drawerRepository: DrawerRepository,
     private val savedStateHandle: SavedStateHandle
-) : ViewModel()
+) : ViewModel() {
+    val drawerLiveData = drawerRepository.selectLiveData()
+}

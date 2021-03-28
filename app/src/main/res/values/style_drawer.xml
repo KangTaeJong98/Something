@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Something.Drawer.Name" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">?attr/onDrawerNameTextColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
