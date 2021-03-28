@@ -20,16 +20,16 @@ import com.taetae98.something.utility.Time
 )
 data class ToDo(
         @PrimaryKey(autoGenerate = true)
-        var id: Long = 0L,
-        var title: String = "",
-        var description: String = "",
-        var drawerId: Long = 1L,
-        var isFinished: Boolean = false,
-        var isOnTop: Boolean = false,
-        var isSticky: Boolean = false,
-        var hasTerm: Boolean = false,
-        var beginTime: Time = Time(),
-        var endTime: Time = Time()
+        var id: Long = 0L,                  // ID(PK) 자동으로 증가한다.
+        var title: String = "",             // 할일의 제목
+        var description: String = "",       // 할일의 설명
+        var drawerId: Long = 1L,            // 서랍의 ID(FK)
+        var isFinished: Boolean = false,    // 할일의 완료 여부
+        var isOnTop: Boolean = false,       // 할일을 최상단에 표시할지 여부
+        var isSticky: Boolean = false,      // 할일을 잠금해제시 표시할지 여부
+        var hasTerm: Boolean = false,       // 기간이 있는지 여부
+        var beginTime: Time = Time(),       // 시작시간
+        var endTime: Time = Time()          // 종료시간
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readLong(),

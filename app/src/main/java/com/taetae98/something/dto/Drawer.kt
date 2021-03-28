@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity
 data class Drawer(
         @PrimaryKey(autoGenerate = true)
-        var id: Long = 0L,
-        var name: String = "",
+        var id: Long = 0L,      // ID(PK) 자동으로 증가한다.
+        var name: String = "",  // 서랍의 이름
 ) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.readLong(), parcel.readString() ?: "")
 
