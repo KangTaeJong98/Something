@@ -29,7 +29,6 @@ abstract class AppDatabase : RoomDatabase() {
                                 override fun onCreate(db: SupportSQLiteDatabase) {
                                     super.onCreate(db)
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        getInstance(context).drawerDao().insert(Drawer())
                                         getInstance(context).todoDao().insert(
                                                 ToDo(
                                                         title = "Hello!",
@@ -39,6 +38,11 @@ abstract class AppDatabase : RoomDatabase() {
                                                             2. Long click to menu.
                                                             3. Swipe to set finished
                                                         """.trimIndent()
+                                                )
+                                        )
+                                        getInstance(context).drawerDao().insert(
+                                                Drawer(
+                                                        name = "Drawer"
                                                 )
                                         )
                                     }

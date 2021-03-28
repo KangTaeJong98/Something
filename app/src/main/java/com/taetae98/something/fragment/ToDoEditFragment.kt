@@ -181,7 +181,7 @@ class ToDoEditFragment : BaseFragment<FragmentTodoEditBinding>(R.layout.fragment
     private fun onCreateOnFinish() {
         binding.setOnFinish {
             if (binding.titleTextInputLayout.editText!!.text.isEmpty()) {
-                Toast.makeText(requireContext(), getString(R.string.fill_ther_title), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.fill_the_title), Toast.LENGTH_SHORT).show()
                 return@setOnFinish
             }
 
@@ -192,7 +192,7 @@ class ToDoEditFragment : BaseFragment<FragmentTodoEditBinding>(R.layout.fragment
                 title = binding.titleTextInputLayout.editText!!.text.toString()
                 description = binding.descriptionTextInputLayout.editText!!.text.toString()
                 if (!binding.drawerSwitch.isChecked) {
-                    drawerId = 1L
+                    drawerId = null
                 }
             }
 

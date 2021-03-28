@@ -54,7 +54,7 @@ class DrawerAdapter @Inject constructor(
                         setPositiveButton(R.string.yes) { _, _ ->
                             CoroutineScope(Dispatchers.IO).launch {
                                 todoRepository.selectWithDrawer(element.id).forEach {
-                                    todoRepository.updateToDo(it)
+                                    todoRepository.deleteToDo(it)
                                 }
                             }
 
@@ -72,7 +72,7 @@ class DrawerAdapter @Inject constructor(
         }
     }
 
-    class DrawerItemCallback() : DiffUtil.ItemCallback<Drawer>() {
+    class DrawerItemCallback : DiffUtil.ItemCallback<Drawer>() {
         override fun areItemsTheSame(oldItem: Drawer, newItem: Drawer): Boolean {
             return oldItem.id == newItem.id
         }

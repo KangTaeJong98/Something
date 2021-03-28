@@ -42,7 +42,11 @@
         android:label="@string/todo" />
     <action
         android:id="@+id/action_global_drawerEditFragment"
-        app:destination="@id/drawerEditFragment" />
+        app:destination="@id/drawerEditFragment"
+        app:enterAnim="@anim/from_right_to_center"
+        app:exitAnim="@anim/from_center_to_left"
+        app:popEnterAnim="@anim/from_left_to_center"
+        app:popExitAnim="@anim/from_center_to_right" />
     <action
         android:id="@+id/action_global_toDoEditFragment"
         app:destination="@id/todoEditFragment"

@@ -69,7 +69,7 @@ class ToDoAdapter @Inject constructor(
         }
     }
 
-    class ToDoItemCallback() : DiffUtil.ItemCallback<ToDo>() {
+    class ToDoItemCallback : DiffUtil.ItemCallback<ToDo>() {
         override fun areItemsTheSame(oldItem: ToDo, newItem: ToDo): Boolean {
             return oldItem.id == newItem.id
         }

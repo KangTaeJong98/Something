@@ -212,7 +212,7 @@
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
                             android:id="@+id/drawer_switch"
-                            android:checked="@{todo.drawerId != 1L}"
+                            android:checked="@{todo.drawerId != null}"
                             android:text="@string/drawer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

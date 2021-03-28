@@ -21,7 +21,8 @@
     <string name="require_permission">Permissions are required due to Google policy.</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
-    <string name="fill_ther_title">Fill the title.</string>
+    <string name="fill_the_title">Fill the title.</string>
+    <string name="fill_the_name">Fill the name.</string>
     <string name="edit">Edit</string>
     <string name="set_not_finished">Set Not Finished</string>
     <string name="set_finished">Set Finished</string>
@@ -29,4 +30,6 @@
     <string name="delete_with_todo">Delete with ToDo?</string>
     <string name="no">No</string>
     <string name="yes">YES</string>
+    <string name="name">Name</string>
+    <string name="all">All</string>
 </resources>
