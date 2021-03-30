@@ -4,17 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import com.taetae98.something.R
 import com.taetae98.something.adapter.ToDoAdapter
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentFinishedBinding
+import com.taetae98.something.utility.DataBinding
 import com.taetae98.something.viewmodel.ToDoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class FinishedFragment : BaseFragment<FragmentFinishedBinding>(R.layout.fragment_finished) {
+class FinishedFragment : BaseFragment(), DataBinding<FragmentFinishedBinding> {
+    override val binding: FragmentFinishedBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_finished, null, false) }
+
     private val todoViewModel by activityViewModels<ToDoViewModel>()
 
     @Inject
@@ -28,10 +32,15 @@ class FinishedFragment : BaseFragment<FragmentFinishedBinding>(R.layout.fragment
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        onCreateViewDataBinding()
         onCreateSupportActionbar()
         onCreateRecyclerView()
-        return view
+        return binding.root
+    }
+
+    override fun onCreateViewDataBinding() {
+        binding.lifecycleOwner = this
     }
 
     private fun onCreateSupportActionbar() {

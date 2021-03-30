@@ -3,6 +3,7 @@ package com.taetae98.something.fragment
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -15,6 +16,7 @@ import com.taetae98.something.dto.Drawer
 import com.taetae98.something.dto.ToDo
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.repository.SettingRepository
+import com.taetae98.something.utility.DataBinding
 import com.taetae98.something.viewmodel.ToDoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -23,7 +25,9 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
-class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
+class ToDoFragment : BaseFragment(), DataBinding<FragmentTodoBinding> {
+    override val binding: FragmentTodoBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_todo, null, false) }
+
     private val todoViewModel by activityViewModels<ToDoViewModel>()
     private val args by navArgs<ToDoFragmentArgs>()
 
@@ -65,11 +69,16 @@ class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        onCreateViewDataBinding()
         onCreateSupportActionbar()
         onCreateRecyclerView()
         onCreateOnEdit()
-        return view
+        return binding.root
+    }
+
+    override fun onCreateViewDataBinding() {
+        binding.lifecycleOwner = this
     }
 
     private fun onCreateToDoList() {

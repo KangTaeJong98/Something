@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentDrawerEditBinding
 import com.taetae98.something.repository.DrawerRepository
+import com.taetae98.something.utility.DataBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DrawerEditFragment : BaseFragment<FragmentDrawerEditBinding>(R.layout.fragment_drawer_edit) {
+class DrawerEditFragment : BaseFragment(), DataBinding<FragmentDrawerEditBinding> {
+    override val binding: FragmentDrawerEditBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_drawer_edit, null, false) }
+
     private val args by navArgs<DrawerEditFragmentArgs>()
     private val drawer by lazy { args.drawer }
 
@@ -25,12 +29,17 @@ class DrawerEditFragment : BaseFragment<FragmentDrawerEditBinding>(R.layout.frag
     lateinit var drawerRepository: DrawerRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        onCreateViewDataBinding()
         onCreateSupportActionBar()
         onCreateDrawer()
         onCreateOnFinish()
         onCreateTextInputLayout()
-        return view
+        return binding.root
+    }
+
+    override fun onCreateViewDataBinding() {
+        binding.lifecycleOwner = this
     }
 
     private fun onCreateSupportActionBar() {

@@ -16,6 +16,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
@@ -24,13 +25,16 @@ import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentTodoEditBinding
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.repository.ToDoRepository
+import com.taetae98.something.utility.DataBinding
 import com.taetae98.something.utility.Time
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ToDoEditFragment : BaseFragment<FragmentTodoEditBinding>(R.layout.fragment_todo_edit) {
+class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
+    override val binding: FragmentTodoEditBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_todo_edit, null, false) }
+
     private val args by navArgs<ToDoEditFragmentArgs>()
     private val todo by lazy { args.todo }
 
@@ -41,7 +45,8 @@ class ToDoEditFragment : BaseFragment<FragmentTodoEditBinding>(R.layout.fragment
     lateinit var drawerRepository: DrawerRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        onCreateViewDataBinding()
         onCreateSupportActionBar()
         onCreateToDo()
         onCreateStickySwitch()
@@ -52,7 +57,11 @@ class ToDoEditFragment : BaseFragment<FragmentTodoEditBinding>(R.layout.fragment
         onCreateDrawer()
         onCreateOnFinish()
         onCreateTextInputLayout()
-        return view
+        return binding.root
+    }
+
+    override fun onCreateViewDataBinding() {
+        binding.lifecycleOwner = this
     }
 
     private fun onCreateSupportActionBar() {

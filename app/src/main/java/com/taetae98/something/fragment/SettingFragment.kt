@@ -8,12 +8,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentSettingBinding
 import com.taetae98.something.dto.Drawer
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.repository.SettingRepository
+import com.taetae98.something.utility.DataBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +25,9 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_setting) {
+class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
+    override val binding: FragmentSettingBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_setting, null, false) }
+
     @Inject
     lateinit var drawerRepository: DrawerRepository
 
@@ -31,13 +35,18 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(R.layout.fragment_s
     lateinit var settingRepository: SettingRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        onCreateViewDataBinding()
         onCreateSupportActionBar()
         onCreateSomethingDefaultTheme()
         onCreateToDoShowFinishedToDo()
         onCreateToDoDefaultDrawer()
         onCreateCalendarShowFinishedToDo()
         return view
+    }
+
+    override fun onCreateViewDataBinding() {
+        binding.lifecycleOwner = this
     }
 
     private fun onCreateSupportActionBar() {
