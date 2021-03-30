@@ -32,4 +32,8 @@
     <string name="yes">YES</string>
     <string name="name">Name</string>
     <string name="all">All</string>
+    <string name="default_theme">Default Theme</string>
+    <string name="show_finished_todo">Show Finished ToDo</string>
+    <string name="default_drawer">Default Drawer</string>
+    <string name="applies_when_the_app_restart">Apply when the app restart.</string>
 </resources>

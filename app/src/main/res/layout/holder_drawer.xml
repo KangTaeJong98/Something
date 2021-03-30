@@ -12,6 +12,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        app:cardBackgroundColor="?attr/onElementBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.textview.MaterialTextView

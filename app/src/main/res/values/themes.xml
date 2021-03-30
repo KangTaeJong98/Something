@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Something" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Something" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">?attr/onBackground</item>
         <item name="colorPrimaryVariant">?attr/onBackgroundVariant</item>
@@ -31,10 +31,5 @@
 
         <item name="onBaseMargin">10dp</item>
         <item name="onMinusBaseMargin">-10dp</item>
-    </style>
-
-    <style name="Theme.Something.Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">?attr/onBackgroundVariant</item>
-        <item name="titleTextColor">?attr/onBackgroundAccent</item>
     </style>
 </resources>

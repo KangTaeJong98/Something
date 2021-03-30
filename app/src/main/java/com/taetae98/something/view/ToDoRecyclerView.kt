@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.taetae98.something.adapter.ToDoAdapter
-import com.taetae98.something.database.ToDoRepository
+import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.toast.DeleteToDoSnackbar
 import com.taetae98.something.toast.SetFinishToDoSnackbar
 import com.taetae98.something.utility.GridSpacingItemDecoration

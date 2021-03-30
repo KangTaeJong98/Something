@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
-import com.taetae98.something.database.DrawerRepository
 import com.taetae98.something.databinding.FragmentDrawerEditBinding
+import com.taetae98.something.repository.DrawerRepository
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

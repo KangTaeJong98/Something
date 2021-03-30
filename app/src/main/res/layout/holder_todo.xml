@@ -13,7 +13,7 @@
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:background="?attr/onElementBackground"
+        app:cardBackgroundColor="?attr/onElementBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout

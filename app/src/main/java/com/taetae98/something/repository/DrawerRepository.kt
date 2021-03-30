@@ -1,6 +1,7 @@
-package com.taetae98.something.database
+package com.taetae98.something.repository
 
 import androidx.lifecycle.LiveData
+import com.taetae98.something.database.DrawerDao
 import com.taetae98.something.dto.Drawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

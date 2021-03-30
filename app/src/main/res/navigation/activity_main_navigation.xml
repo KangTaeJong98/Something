@@ -39,7 +39,12 @@
     <fragment
         android:id="@+id/todoFragment"
         android:name="com.taetae98.something.fragment.ToDoFragment"
-        android:label="@string/todo" />
+        android:label="@string/todo" >
+        <argument
+            android:name="drawerId"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
     <action
         android:id="@+id/action_global_drawerEditFragment"
         app:destination="@id/drawerEditFragment"
@@ -54,4 +59,7 @@
         app:exitAnim="@anim/from_center_to_left"
         app:popEnterAnim="@anim/from_left_to_center"
         app:popExitAnim="@anim/from_center_to_right" />
+    <action
+        android:id="@+id/action_global_todoFragment"
+        app:destination="@id/todoFragment" />
 </navigation>

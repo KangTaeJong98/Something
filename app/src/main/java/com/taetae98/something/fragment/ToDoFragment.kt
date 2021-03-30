@@ -5,30 +5,38 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.adapter.ToDoAdapter
 import com.taetae98.something.base.BaseFragment
-import com.taetae98.something.database.DrawerRepository
 import com.taetae98.something.databinding.FragmentTodoBinding
 import com.taetae98.something.dto.Drawer
 import com.taetae98.something.dto.ToDo
+import com.taetae98.something.repository.DrawerRepository
+import com.taetae98.something.repository.SettingRepository
 import com.taetae98.something.viewmodel.ToDoViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
     private val todoViewModel by activityViewModels<ToDoViewModel>()
+    private val args by navArgs<ToDoFragmentArgs>()
 
     @Inject
     lateinit var drawerRepository: DrawerRepository
 
     @Inject
+    lateinit var settingRepository: SettingRepository
+
+    @Inject
     lateinit var todoAdapter: ToDoAdapter
+
+    private val showFinishedToDo by lazy { runBlocking { settingRepository.getToDoShowFinishedToDo().first() } }
 
     private var drawerId by Delegates.observable<Long?>(null) { _, _, _ ->
         notifyToDoListChanged()
@@ -52,9 +60,8 @@ class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        todoViewModel.todoLiveData.observe(viewLifecycleOwner) {
-            todoList = it
-        }
+        onCreateToDoList()
+        onCreateDrawerID()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,6 +70,31 @@ class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
         onCreateRecyclerView()
         onCreateOnEdit()
         return view
+    }
+
+    private fun onCreateToDoList() {
+        todoViewModel.todoLiveData.observe(viewLifecycleOwner) {
+            todoList = if (showFinishedToDo) {
+                it
+            } else {
+                it.filter { todo ->
+                    !todo.isFinished
+                }
+            }
+        }
+    }
+
+    private fun onCreateDrawerID() {
+        if (args.drawerId > 0L) {
+            drawerId = args.drawerId
+        } else {
+            CoroutineScope(Dispatchers.IO).launch {
+                val drawer = settingRepository.getToDoDefaultDrawer().first()
+                withContext(Dispatchers.Main) {
+                    drawerId = drawer
+                }
+            }
+        }
     }
 
     private fun onCreateSupportActionbar() {
@@ -77,7 +109,7 @@ class ToDoFragment : BaseFragment<FragmentTodoBinding>(R.layout.fragment_todo) {
 
     private fun onCreateOnEdit() {
         binding.setOnEdit {
-            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(ToDo()))
+            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(ToDo(drawerId = drawerId)))
         }
     }
 

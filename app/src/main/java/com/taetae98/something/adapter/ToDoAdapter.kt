@@ -10,7 +10,7 @@ import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseAdapter
 import com.taetae98.something.base.BaseHolder
-import com.taetae98.something.database.ToDoRepository
+import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.databinding.HolderTodoBinding
 import com.taetae98.something.dto.ToDo
 import dagger.hilt.android.scopes.FragmentScoped

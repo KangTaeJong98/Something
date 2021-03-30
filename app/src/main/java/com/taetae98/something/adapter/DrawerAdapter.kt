@@ -11,20 +11,23 @@ import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseAdapter
 import com.taetae98.something.base.BaseHolder
-import com.taetae98.something.database.DrawerRepository
-import com.taetae98.something.database.ToDoRepository
 import com.taetae98.something.databinding.HolderDrawerBinding
 import com.taetae98.something.dto.Drawer
+import com.taetae98.something.repository.DrawerRepository
+import com.taetae98.something.repository.SettingRepository
+import com.taetae98.something.repository.ToDoRepository
 import dagger.hilt.android.scopes.FragmentScoped
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @FragmentScoped
 class DrawerAdapter @Inject constructor(
         private val todoRepository: ToDoRepository,
-        private val drawerRepository: DrawerRepository
+        private val drawerRepository: DrawerRepository,
+        private val settingRepository: SettingRepository
 ) : BaseAdapter<Drawer>(DrawerItemCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseHolder<out ViewDataBinding, Drawer> {
         return DrawerHolder(HolderDrawerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -33,7 +36,7 @@ class DrawerAdapter @Inject constructor(
     inner class DrawerHolder(binding: HolderDrawerBinding) : BaseHolder<HolderDrawerBinding, Drawer>(binding) {
         init {
             itemView.setOnClickListener {
-                it.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalDrawerEditFragment(element))
+                it.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalTodoFragment(element.id))
             }
 
             itemView.setOnCreateContextMenuListener { menu, _, _ ->
@@ -48,7 +51,11 @@ class DrawerAdapter @Inject constructor(
                         setMessage(R.string.delete_with_todo)
                         setNegativeButton(R.string.no) { _, _ ->
                             drawerRepository.deleteDrawer(element)
-
+                            CoroutineScope(Dispatchers.IO).launch {
+                                if (settingRepository.getToDoDefaultDrawer().first() == element.id) {
+                                    settingRepository.setToDoDefaultDrawer(null)
+                                }
+                            }
                         }
 
                         setPositiveButton(R.string.yes) { _, _ ->
@@ -59,6 +66,11 @@ class DrawerAdapter @Inject constructor(
                             }
 
                             drawerRepository.deleteDrawer(element)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                if (settingRepository.getToDoDefaultDrawer().first() == element.id) {
+                                    settingRepository.setToDoDefaultDrawer(null)
+                                }
+                            }
                         }
                     }.show()
                     true

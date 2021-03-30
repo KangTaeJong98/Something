@@ -21,9 +21,9 @@ import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
 import com.taetae98.something.adapter.BindingAdapter
 import com.taetae98.something.base.BaseFragment
-import com.taetae98.something.database.DrawerRepository
-import com.taetae98.something.database.ToDoRepository
 import com.taetae98.something.databinding.FragmentTodoEditBinding
+import com.taetae98.something.repository.DrawerRepository
+import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.utility.Time
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
