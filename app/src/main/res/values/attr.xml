@@ -16,4 +16,8 @@
     <attr name="onToDoDescriptionTextColor" format="color" />
 
     <attr name="onDrawerNameTextColor" format="color" />
+
+    <attr name="onSaturdayTextColor" format="color" />
+    <attr name="onSundayTextColor" format="color" />
+    <attr name="onWeekdayTextColor" format="color" />
 </resources>

@@ -31,5 +31,9 @@
 
         <item name="onBaseMargin">10dp</item>
         <item name="onMinusBaseMargin">-10dp</item>
+
+        <item name="onSaturdayTextColor">@color/saturday</item>
+        <item name="onSundayTextColor">@color/sunday</item>
+        <item name="onWeekdayTextColor">@color/week</item>
     </style>
 </resources>

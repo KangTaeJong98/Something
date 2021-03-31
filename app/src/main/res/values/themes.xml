@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Something" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="Theme.Something" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">?attr/onBackground</item>
         <item name="colorPrimaryVariant">?attr/onBackgroundVariant</item>
@@ -31,5 +31,9 @@
 
         <item name="onBaseMargin">10dp</item>
         <item name="onMinusBaseMargin">-10dp</item>
+
+        <item name="onSaturdayTextColor">@color/saturday</item>
+        <item name="onSundayTextColor">@color/sunday</item>
+        <item name="onWeekdayTextColor">@color/week</item>
     </style>
 </resources>

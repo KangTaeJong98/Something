@@ -42,7 +42,7 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
         onCreateToDoShowFinishedToDo()
         onCreateToDoDefaultDrawer()
         onCreateCalendarShowFinishedToDo()
-        return view
+        return binding.root
     }
 
     override fun onCreateViewDataBinding() {
@@ -123,7 +123,18 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
 
     private fun onCreateCalendarShowFinishedToDo() {
         with(binding.calendarShowFinishedSwitch) {
+            CoroutineScope(Dispatchers.IO).launch {
+                val calendarShowFinishedToDo = settingRepository.getCalendarShowFinishedToDo().first()
+                withContext(Dispatchers.Main) {
+                    isChecked = calendarShowFinishedToDo
+                }
+            }
 
+            setOnCheckedChangeListener { _, isChecked ->
+                CoroutineScope(Dispatchers.IO).launch {
+                    settingRepository.setCalendarShowFinishedToDo(isChecked)
+                }
+            }
         }
     }
 }

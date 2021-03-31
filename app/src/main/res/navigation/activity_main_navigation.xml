@@ -62,4 +62,22 @@
     <action
         android:id="@+id/action_global_todoFragment"
         app:destination="@id/todoFragment" />
+    <dialog
+        android:id="@+id/toDoDateDialog"
+        android:name="com.taetae98.something.dialog.ToDoDateDialog"
+        android:label="ToDoDateDialog" >
+        <argument
+            android:name="time"
+            app:argType="com.taetae98.something.utility.Time" />
+        <argument
+            android:name="showFinishedToDo"
+            app:argType="boolean"
+            android:defaultValue="false" />
+        <action
+            android:id="@+id/action_toDoDateDialog_to_todoEditFragment"
+            app:destination="@id/todoEditFragment" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_toDoDateDialog"
+        app:destination="@id/toDoDateDialog" />
 </navigation>

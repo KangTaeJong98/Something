@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View.OnClickListener" />
+        <import type="com.taetae98.something.utility.Time" />
+
+        <variable
+            name="time"
+            type="Time" />
+
+        <variable
+            name="onAdd"
+            type="OnClickListener" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:background="?attr/onBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                app:date="@{time}"
+                android:textColor="?attr/onBackgroundAccent"
+                android:padding="20dp"
+                android:id="@+id/date_text_view"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2020. 2. 13." />
+
+            <com.taetae98.something.view.ToDoRecyclerView
+                android:id="@+id/todo_recycler_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_text_view" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:onClick="@{onAdd}"
+            android:src="@drawable/ic_add"
+            app:layout_anchor="@id/layout"
+            app:tint="?attr/onBackgroundAccent"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_margin="?attr/onBaseMargin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/add" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

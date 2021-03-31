@@ -14,7 +14,7 @@ class SettingRepository @Inject constructor() {
     private val defaultThemeKey by lazy { intPreferencesKey("Default Theme") }
     private val todoShowFinishedToDoKey by lazy { booleanPreferencesKey("ToDo Show Finished ToDo") }
     private val todoDefaultDrawerKey by lazy { longPreferencesKey("ToDo Default Drawer") }
-
+    private val calendarShowFinishedToDoKey by lazy { booleanPreferencesKey("Calendar Show Finished ToDo") }
 
 
     val themeList = arrayOf("System" to R.style.Theme_Something, "Blue" to R.style.Theme_Something_Blue, "Dark" to R.style.Theme_Something_Dark)
@@ -59,5 +59,13 @@ class SettingRepository @Inject constructor() {
                 it[todoDefaultDrawerKey] = value
             }
         }
+    }
+
+    fun getCalendarShowFinishedToDo(): Flow<Boolean> {
+        return settingStore.data.map { it[calendarShowFinishedToDoKey] ?: false }
+    }
+
+    suspend fun setCalendarShowFinishedToDo(value: Boolean) {
+        settingStore.edit { it[calendarShowFinishedToDoKey] = value }
     }
 }

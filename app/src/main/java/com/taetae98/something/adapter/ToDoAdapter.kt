@@ -2,6 +2,7 @@ package com.taetae98.something.adapter
 
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.navigation.findNavController
@@ -10,16 +11,23 @@ import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseAdapter
 import com.taetae98.something.base.BaseHolder
-import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.databinding.HolderTodoBinding
 import com.taetae98.something.dto.ToDo
+import com.taetae98.something.repository.ToDoRepository
 import dagger.hilt.android.scopes.FragmentScoped
 import javax.inject.Inject
 
 @FragmentScoped
 class ToDoAdapter @Inject constructor(
-    private val todoRepository: ToDoRepository
+    private val todoRepository: ToDoRepository,
 ) : BaseAdapter<ToDo>(ToDoItemCallback()) {
+
+    var onClickCallback: ((View, ToDo) -> Unit) = { view,  todo ->
+        view.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(todo))
+    }
+    var onEditCallback: ((View, ToDo) -> Unit) = { view, todo ->
+        view.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(todo))
+    }
 
     init {
         setHasStableIds(true)
@@ -36,23 +44,23 @@ class ToDoAdapter @Inject constructor(
     inner class ToDoHolder(binding: HolderTodoBinding) : BaseHolder<HolderTodoBinding, ToDo>(binding) {
         init {
             itemView.setOnClickListener {
-                it.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(element))
+                onClickCallback.invoke(it, element)
             }
 
             itemView.setOnCreateContextMenuListener { menu, _, _ ->
                 menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.edit)).setOnMenuItemClickListener {
-                    itemView.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(element))
+                    onEditCallback?.invoke(itemView, element)
                     true
                 }
 
                 if (element.isFinished) {
                     menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.set_not_finished)).setOnMenuItemClickListener {
-                        todoRepository.updateToDo(element.copy(isFinished = true))
+                        todoRepository.updateToDo(element.copy(isFinished = false))
                         true
                     }
                 } else {
                     menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.set_finished)).setOnMenuItemClickListener {
-                        todoRepository.updateToDo(element.copy(isFinished = false))
+                        todoRepository.updateToDo(element.copy(isFinished = true))
                         true
                     }
                 }

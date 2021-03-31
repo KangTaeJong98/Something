@@ -1,8 +1,10 @@
 package com.taetae98.something.utility
 
+import android.os.Parcel
+import android.os.Parcelable
 import java.util.*
 
-class Time() : GregorianCalendar() {
+class Time() : GregorianCalendar(), Parcelable {
     var year: Int
         get() {
             return get(YEAR)
@@ -35,6 +37,10 @@ class Time() : GregorianCalendar() {
             set(Calendar.DAY_OF_WEEK, value)
         }
 
+    constructor(parcel: Parcel) : this() {
+        timeInMillis = parcel.readLong()
+    }
+
     init {
         init()
     }
@@ -56,6 +62,26 @@ class Time() : GregorianCalendar() {
             add(field, value - get(field))
         }.also {
             timeInMillis = it.timeInMillis
+        }
+    }
+
+
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeLong(timeInMillis)
+    }
+
+    companion object CREATOR : Parcelable.Creator<Time> {
+        override fun createFromParcel(parcel: Parcel): Time {
+            return Time(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Time?> {
+            return arrayOfNulls(size)
         }
     }
 }
