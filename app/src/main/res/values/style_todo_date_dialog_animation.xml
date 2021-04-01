@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="Theme.Something.ToDo.Date.Dialog" parent="Theme.MaterialComponents.Dialog">
-        <item name="android:windowEnterAnimation">@anim/from_up_to_center</item>
-        <item name="android:windowExitAnimation">@anim/from_center_to_down</item>
-    </style>
-</resources>

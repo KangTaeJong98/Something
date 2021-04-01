@@ -34,11 +34,11 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
     override fun onResume() {
         super.onResume()
         setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
-        dialog?.window?.attributes?.windowAnimations = R.style.Theme_Something_ToDo_Date_Dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.attributes?.windowAnimations = R.style.Theme_Something_ToDo_Date_Dialog
         onCreateToDoList()
     }
 
