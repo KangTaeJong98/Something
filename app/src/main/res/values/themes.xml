@@ -24,8 +24,8 @@
         <item name="onElementBackgroundAccent">@color/onBlueVariantColor</item>
 
         <item name="onToDoTitleTextColor">@color/black</item>
-        <item name="onToDoTermTextColor">@color/gray</item>
-        <item name="onToDoDescriptionTextColor">@color/gray</item>
+        <item name="onToDoTermTextColor">@color/nickel</item>
+        <item name="onToDoDescriptionTextColor">@color/nickel</item>
 
         <item name="onDrawerNameTextColor">@color/black</item>
 

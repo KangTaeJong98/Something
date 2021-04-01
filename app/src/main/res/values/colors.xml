@@ -2,7 +2,10 @@
 <resources>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-    <color name="gray">#666666</color>
+    <color name="coal">#444444</color>
+    <color name="nickel">#666666</color>
+    <color name="silver">#CCCCCC</color>
+    <color name="snow">#F4F4F4</color>
     <color name="yellow_green">#89CA78</color>
 
     <color name="onBlueColor">#3C5899</color>

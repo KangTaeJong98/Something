@@ -50,6 +50,8 @@ class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
         if (defaultTheme != 0) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             setTheme(settingRepository.themeList[defaultTheme].second)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         }
     }
 
