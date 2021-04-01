@@ -1,6 +1,5 @@
 package com.taetae98.something
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
@@ -95,9 +95,9 @@ class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
                     todo.isNotification && !todo.isFinished
                 }.forEach { todo ->
                     val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        Notification.Builder(this@MainActivity, NOTIFICATION_CHANNEL_ID)
+                        NotificationCompat.Builder(this@MainActivity, NOTIFICATION_CHANNEL_ID)
                     } else {
-                        Notification.Builder(this@MainActivity)
+                        NotificationCompat.Builder(this@MainActivity)
                     }
 
                     val term = if (todo.hasTerm) {
@@ -119,7 +119,7 @@ class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
                         setShowWhen(false)
                         setContentIntent(contentIntent)
                         setOngoing(true)
-                        style = Notification.BigTextStyle()
+                        setStyle(NotificationCompat.BigTextStyle())
                     }
 
                     notify(todo.id.toInt(), builder.build())
