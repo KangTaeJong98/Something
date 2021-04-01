@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentCalendarBinding
@@ -83,13 +82,9 @@ class CalendarFragment : BaseFragment(), DataBinding<FragmentCalendarBinding> {
             }
         }
 
-        binding.todoCalendar.onDateChangeListener = {
-
-        }
-
         binding.todoCalendar.onDateClickListener = {
             val showFinishedToDo = runBlocking { settingRepository.getCalendarShowFinishedToDo().first() }
-            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoDateDialog(it, showFinishedToDo))
+            findNavController().navigate(CalendarFragmentDirections.actionCalendarFragmentToToDoDateDialog(it, showFinishedToDo))
         }
     }
 }

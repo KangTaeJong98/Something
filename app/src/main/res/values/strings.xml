@@ -10,6 +10,7 @@
     <string name="undo">UnDo</string>
     <string name="set_finish_success">Set Finish Success</string>
     <string name="mark_at_the_top">Mart at the top.</string>
+    <string name="show_on_notification">Show on notification</string>
     <string name="show_when_unlock_the_phone">Show when unlock the phone.</string>
     <string name="term">Term</string>
     <string name="begin">Begin</string>

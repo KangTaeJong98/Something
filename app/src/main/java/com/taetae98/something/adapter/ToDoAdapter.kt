@@ -5,9 +5,7 @@ import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseAdapter
 import com.taetae98.something.base.BaseHolder
@@ -22,12 +20,8 @@ class ToDoAdapter @Inject constructor(
     private val todoRepository: ToDoRepository,
 ) : BaseAdapter<ToDo>(ToDoItemCallback()) {
 
-    var onClickCallback: ((View, ToDo) -> Unit) = { view,  todo ->
-        view.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(todo))
-    }
-    var onEditCallback: ((View, ToDo) -> Unit) = { view, todo ->
-        view.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(todo))
-    }
+    var onClickCallback: ((View, ToDo) -> Unit)? = null
+    var onEditCallback: ((View, ToDo) -> Unit)? = null
 
     init {
         setHasStableIds(true)
@@ -44,7 +38,7 @@ class ToDoAdapter @Inject constructor(
     inner class ToDoHolder(binding: HolderTodoBinding) : BaseHolder<HolderTodoBinding, ToDo>(binding) {
         init {
             itemView.setOnClickListener {
-                onClickCallback.invoke(it, element)
+                onClickCallback?.invoke(it, element)
             }
 
             itemView.setOnCreateContextMenuListener { menu, _, _ ->

@@ -7,7 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.adapter.ToDoAdapter
 import com.taetae98.something.base.BaseFragment
@@ -111,6 +110,15 @@ class ToDoFragment : BaseFragment(), DataBinding<FragmentTodoBinding> {
     }
 
     private fun onCreateRecyclerView() {
+        with(todoAdapter) {
+            val callback: (View, ToDo) -> Unit = { _, todo ->
+                findNavController().navigate(ToDoFragmentDirections.actionTodoFragmentToTodoEditFragment(todo))
+            }
+
+            onClickCallback = callback
+            onEditCallback = callback
+        }
+
         with(binding.todoRecyclerView) {
             adapter = todoAdapter
         }
@@ -118,7 +126,7 @@ class ToDoFragment : BaseFragment(), DataBinding<FragmentTodoBinding> {
 
     private fun onCreateOnEdit() {
         binding.setOnEdit {
-            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(ToDo(drawerId = drawerId)))
+            findNavController().navigate(ToDoFragmentDirections.actionTodoFragmentToTodoEditFragment(ToDo(drawerId = drawerId)))
         }
     }
 

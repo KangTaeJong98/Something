@@ -1,4 +1,4 @@
-package com.taetae98.something.dialog
+ package com.taetae98.something.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.adapter.ToDoAdapter
 import com.taetae98.something.base.BaseDialog
@@ -35,6 +34,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
     override fun onResume() {
         super.onResume()
         setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.attributes?.windowAnimations = R.style.Theme_Something_ToDo_Date_Dialog
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,7 +89,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
 
     private fun onCreateOnAdd() {
         binding.setOnAdd {
-            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalToDoEditFragment(ToDo(hasTerm = true, beginTime = time, endTime = time)))
+            findNavController().navigate(ToDoDateDialogDirections.actionToDoDateDialogToTodoEditFragment(ToDo(hasTerm = true, beginTime = time, endTime = time)))
         }
     }
 }

@@ -49,7 +49,6 @@ class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
         onCreateViewDataBinding()
         onCreateSupportActionBar()
         onCreateToDo()
-        onCreateStickySwitch()
         onCreateTermSwitch()
         onCreateOnSetBegin()
         onCreateOnSetEnd()
@@ -76,26 +75,6 @@ class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
             }
 
             binding.todo = this
-        }
-    }
-
-    private fun onCreateStickySwitch() {
-        binding.stickySwitch.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(requireContext())) {
-                AlertDialog.Builder(requireContext()).apply {
-                    setTitle(R.string.permission_request)
-                    setMessage(context.getString(R.string.require_permission))
-                    setPositiveButton(context.getString(R.string.confirm)) { _, _ ->
-                        startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${requireContext().packageName}")))
-                    }
-
-                    setNegativeButton(context.getString(R.string.cancel)) { _, _ ->
-
-                    }
-                }.show()
-
-                binding.stickySwitch.isChecked = false
-            }
         }
     }
 
@@ -196,7 +175,7 @@ class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
 
             with(todo) {
                 isOnTop = binding.onTopSwitch.isChecked
-                isSticky = binding.stickySwitch.isChecked
+                isNotification = binding.notificationSwitch.isChecked
                 hasTerm = binding.termSwitch.isChecked
                 title = binding.titleTextInputLayout.editText!!.text.toString()
                 description = binding.descriptionTextInputLayout.editText!!.text.toString()

@@ -78,9 +78,9 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.switchmaterial.SwitchMaterial
-                            android:id="@+id/sticky_switch"
-                            android:checked="@{todo.sticky}"
-                            android:text="@string/show_when_unlock_the_phone"
+                            android:id="@+id/notification_switch"
+                            android:checked="@{todo.notification}"
+                            android:text="@string/show_on_notification"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="?attr/onBaseMargin"

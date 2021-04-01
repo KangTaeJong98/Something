@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.adapter.DrawerAdapter
 import com.taetae98.something.base.BaseFragment
@@ -52,6 +51,14 @@ class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
     }
 
     private fun onCreateRecyclerView() {
+        with(drawerAdapter) {
+            onClickCallback = { _, drawer ->
+                findNavController().navigate(DrawerFragmentDirections.actionDrawerFragmentToTodoFragment(drawer.id))
+            }
+            onEditCallback = { _, drawer ->
+                findNavController().navigate(DrawerFragmentDirections.actionDrawerFragmentToDrawerEditFragment(drawer))
+            }
+        }
         with(binding.drawerRecyclerView) {
             adapter = drawerAdapter
         }
@@ -59,7 +66,7 @@ class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
 
     private fun onCreateOnEdit() {
         binding.setOnEdit {
-            findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalDrawerEditFragment(Drawer()))
+            findNavController().navigate(DrawerFragmentDirections.actionDrawerFragmentToDrawerEditFragment(Drawer()))
         }
     }
 }

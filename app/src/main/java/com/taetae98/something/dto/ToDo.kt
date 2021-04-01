@@ -26,7 +26,7 @@ data class ToDo(
         var drawerId: Long? = null,         // 서랍의 ID(FK)
         var isFinished: Boolean = false,    // 할일의 완료 여부
         var isOnTop: Boolean = false,       // 할일을 최상단에 표시할지 여부
-        var isSticky: Boolean = false,      // 할일을 잠금해제시 표시할지 여부
+        var isNotification: Boolean = false,// 알림창에 표시
         var hasTerm: Boolean = false,       // 기간이 있는지 여부
         var beginTime: Time = Time(),       // 시작시간
         var endTime: Time = Time()          // 종료시간
@@ -56,7 +56,7 @@ data class ToDo(
             writeLong(drawerId ?: -1)
             writeByte(if (isFinished) 1 else 0)
             writeByte(if (isOnTop) 1 else 0)
-            writeByte(if (isSticky) 1 else 0)
+            writeByte(if (isNotification) 1 else 0)
             writeByte(if (hasTerm) 1 else 0)
             writeLong(beginTime.timeInMillis)
             writeLong(endTime.timeInMillis)

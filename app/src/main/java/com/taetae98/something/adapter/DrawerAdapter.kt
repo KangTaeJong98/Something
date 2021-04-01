@@ -3,11 +3,10 @@ package com.taetae98.something.adapter
 import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
-import com.taetae98.something.ActivityMainNavigationXmlDirections
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseAdapter
 import com.taetae98.something.base.BaseHolder
@@ -29,6 +28,10 @@ class DrawerAdapter @Inject constructor(
         private val drawerRepository: DrawerRepository,
         private val settingRepository: SettingRepository
 ) : BaseAdapter<Drawer>(DrawerItemCallback()) {
+
+    var onClickCallback: ((View, Drawer) -> Unit)? = null
+    var onEditCallback: ((View, Drawer) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseHolder<out ViewDataBinding, Drawer> {
         return DrawerHolder(HolderDrawerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
@@ -36,12 +39,12 @@ class DrawerAdapter @Inject constructor(
     inner class DrawerHolder(binding: HolderDrawerBinding) : BaseHolder<HolderDrawerBinding, Drawer>(binding) {
         init {
             itemView.setOnClickListener {
-                it.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalTodoFragment(element.id))
+                onClickCallback?.invoke(it, element)
             }
 
             itemView.setOnCreateContextMenuListener { menu, _, _ ->
                 menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.edit)).setOnMenuItemClickListener {
-                    itemView.findNavController().navigate(ActivityMainNavigationXmlDirections.actionGlobalDrawerEditFragment(element))
+                    onEditCallback?.invoke(itemView, element)
                     true
                 }
 

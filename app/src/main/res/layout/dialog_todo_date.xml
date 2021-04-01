@@ -28,6 +28,7 @@
             <TextView
                 app:date="@{time}"
                 android:textColor="?attr/onBackgroundAccent"
+                android:background="?attr/onBackgroundVariant"
                 android:padding="20dp"
                 android:id="@+id/date_text_view"
                 android:gravity="center"

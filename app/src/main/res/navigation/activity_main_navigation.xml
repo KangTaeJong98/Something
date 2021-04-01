@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_navigation.xml"
     app:startDestination="@id/todoFragment">
 
     <fragment
         android:id="@+id/calendarFragment"
         android:name="com.taetae98.something.fragment.CalendarFragment"
-        android:label="@string/calendar" />
+        android:label="@string/calendar"
+        tools:layout="@layout/fragment_calendar">
+        <action
+            android:id="@+id/action_calendarFragment_to_toDoDateDialog"
+            app:destination="@id/toDoDateDialog" />
+    </fragment>
     <fragment
         android:id="@+id/drawerEditFragment"
         android:name="com.taetae98.something.fragment.DrawerEditFragment"
-        android:label="@string/edit" >
+        android:label="@string/edit"
+        tools:layout="@layout/fragment_drawer_edit">
         <argument
             android:name="drawer"
             app:argType="com.taetae98.something.dto.Drawer" />
@@ -19,19 +26,34 @@
     <fragment
         android:id="@+id/finishedFragment"
         android:name="com.taetae98.something.fragment.FinishedFragment"
-        android:label="@string/finished_todo" />
+        android:label="@string/finished_todo"
+        tools:layout="@layout/fragment_finished">
+        <action
+            android:id="@+id/action_finishedFragment_to_todoEditFragment"
+            app:destination="@id/todoEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/drawerFragment"
         android:name="com.taetae98.something.fragment.DrawerFragment"
-        android:label="@string/drawer" />
+        android:label="@string/drawer"
+        tools:layout="@layout/fragment_drawer">
+        <action
+            android:id="@+id/action_drawerFragment_to_todoFragment"
+            app:destination="@id/todoFragment" />
+        <action
+            android:id="@+id/action_drawerFragment_to_drawerEditFragment"
+            app:destination="@id/drawerEditFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.taetae98.something.fragment.SettingFragment"
-        android:label="@string/setting" />
+        android:label="@string/setting"
+        tools:layout="@layout/fragment_setting"/>
     <fragment
         android:id="@+id/todoEditFragment"
         android:name="com.taetae98.something.fragment.ToDoEditFragment"
-        android:label="@string/edit" >
+        android:label="@string/edit"
+        tools:layout="@layout/fragment_todo_edit">
         <argument
             android:name="todo"
             app:argType="com.taetae98.something.dto.ToDo" />
@@ -39,33 +61,25 @@
     <fragment
         android:id="@+id/todoFragment"
         android:name="com.taetae98.something.fragment.ToDoFragment"
-        android:label="@string/todo" >
+        android:label="@string/todo"
+        tools:layout="@layout/fragment_todo">
         <argument
             android:name="drawerId"
             app:argType="long"
             android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_todoFragment_to_todoEditFragment"
+            app:destination="@id/todoEditFragment"
+            app:enterAnim="@anim/from_right_to_center"
+            app:exitAnim="@anim/from_center_to_left"
+            app:popEnterAnim="@anim/from_left_to_center"
+            app:popExitAnim="@anim/from_center_to_right" />
     </fragment>
-    <action
-        android:id="@+id/action_global_drawerEditFragment"
-        app:destination="@id/drawerEditFragment"
-        app:enterAnim="@anim/from_right_to_center"
-        app:exitAnim="@anim/from_center_to_left"
-        app:popEnterAnim="@anim/from_left_to_center"
-        app:popExitAnim="@anim/from_center_to_right" />
-    <action
-        android:id="@+id/action_global_toDoEditFragment"
-        app:destination="@id/todoEditFragment"
-        app:enterAnim="@anim/from_right_to_center"
-        app:exitAnim="@anim/from_center_to_left"
-        app:popEnterAnim="@anim/from_left_to_center"
-        app:popExitAnim="@anim/from_center_to_right" />
-    <action
-        android:id="@+id/action_global_todoFragment"
-        app:destination="@id/todoFragment" />
     <dialog
         android:id="@+id/toDoDateDialog"
         android:name="com.taetae98.something.dialog.ToDoDateDialog"
-        android:label="ToDoDateDialog" >
+        android:label="ToDoDateDialog"
+        tools:layout="@layout/dialog_todo_date">
         <argument
             android:name="time"
             app:argType="com.taetae98.something.utility.Time" />
@@ -75,9 +89,10 @@
             android:defaultValue="false" />
         <action
             android:id="@+id/action_toDoDateDialog_to_todoEditFragment"
-            app:destination="@id/todoEditFragment" />
+            app:destination="@id/todoEditFragment"
+            app:enterAnim="@anim/from_right_to_center"
+            app:exitAnim="@anim/from_center_to_left"
+            app:popEnterAnim="@anim/from_left_to_center"
+            app:popExitAnim="@anim/from_center_to_right"/>
     </dialog>
-    <action
-        android:id="@+id/action_global_toDoDateDialog"
-        app:destination="@id/toDoDateDialog" />
 </navigation>

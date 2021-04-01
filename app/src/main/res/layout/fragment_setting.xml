@@ -70,6 +70,18 @@
                                 android:layout_height="wrap_content" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/sticky_switch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="?attr/onBaseMargin"
+                            android:layout_marginEnd="?attr/onBaseMargin"
+                            android:text="@string/show_when_unlock_the_phone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/something_default_theme_text_input_layout"
+                            app:layout_constraintBottom_toBottomOf="parent"/>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>
 

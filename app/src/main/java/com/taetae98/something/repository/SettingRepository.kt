@@ -11,6 +11,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SettingRepository @Inject constructor() {
+    private val isStickyKey by lazy { booleanPreferencesKey("Is Sticky") }
     private val defaultThemeKey by lazy { intPreferencesKey("Default Theme") }
     private val todoShowFinishedToDoKey by lazy { booleanPreferencesKey("ToDo Show Finished ToDo") }
     private val todoDefaultDrawerKey by lazy { longPreferencesKey("ToDo Default Drawer") }
@@ -67,5 +68,13 @@ class SettingRepository @Inject constructor() {
 
     suspend fun setCalendarShowFinishedToDo(value: Boolean) {
         settingStore.edit { it[calendarShowFinishedToDoKey] = value }
+    }
+
+    fun getIsSticky(): Flow<Boolean> {
+        return settingStore.data.map { it[isStickyKey] ?: false }
+    }
+
+    suspend fun setIsSticky(value: Boolean) {
+        settingStore.edit { it[isStickyKey] = value }
     }
 }

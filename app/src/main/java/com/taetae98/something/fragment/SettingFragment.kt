@@ -1,6 +1,11 @@
 package com.taetae98.something.fragment
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +20,7 @@ import com.taetae98.something.databinding.FragmentSettingBinding
 import com.taetae98.something.dto.Drawer
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.repository.SettingRepository
+import com.taetae98.something.service.StickyService
 import com.taetae98.something.utility.DataBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -42,6 +48,7 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
         onCreateToDoShowFinishedToDo()
         onCreateToDoDefaultDrawer()
         onCreateCalendarShowFinishedToDo()
+        onCreateStickySwitch()
         return binding.root
     }
 
@@ -133,6 +140,58 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
             setOnCheckedChangeListener { _, isChecked ->
                 CoroutineScope(Dispatchers.IO).launch {
                     settingRepository.setCalendarShowFinishedToDo(isChecked)
+                }
+            }
+        }
+    }
+
+    private fun onCreateStickySwitch() {
+        with(binding.stickySwitch) {
+            setOnClickListener {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(requireContext())) {
+                    AlertDialog.Builder(requireContext()).apply {
+                        setTitle(R.string.permission_request)
+                        setMessage(context.getString(R.string.require_permission))
+                        setPositiveButton(context.getString(R.string.confirm)) { _, _ ->
+                            startActivity(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:${requireContext().packageName}")))
+                        }
+
+                        setNegativeButton(context.getString(R.string.cancel)) { _, _ ->
+
+                        }
+                    }.show()
+
+                    binding.stickySwitch.isChecked = false
+                }
+            }
+
+            setOnCheckedChangeListener { _, isChecked ->
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !Settings.canDrawOverlays(requireContext())) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        settingRepository.setIsSticky(false)
+                    }
+                    return@setOnCheckedChangeListener
+                }
+
+                if (isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        requireContext().startForegroundService(Intent(requireContext(), StickyService::class.java))
+                    } else {
+                        requireContext().startService(Intent(requireContext(), StickyService::class.java))
+                    }
+                } else {
+                    requireContext().stopService(Intent(requireContext(), StickyService::class.java))
+                }
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    settingRepository.setIsSticky(isChecked)
+                }
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val value = settingRepository.getIsSticky().first()
+                withContext(Dispatchers.Main) {
+                    isChecked = value
                 }
             }
         }
