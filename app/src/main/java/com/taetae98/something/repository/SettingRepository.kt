@@ -1,8 +1,8 @@
 package com.taetae98.something.repository
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import com.taetae98.something.R
 import com.taetae98.something.di.SettingDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -18,7 +18,7 @@ class SettingRepository @Inject constructor() {
     private val calendarShowFinishedToDoKey by lazy { booleanPreferencesKey("Calendar Show Finished ToDo") }
 
 
-    val themeList = arrayOf("System" to R.style.Theme_Something, "Blue" to R.style.Theme_Something_Blue, "Dark" to R.style.Theme_Something_Dark)
+    val themeList = arrayOf("System" to AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, "Blue" to AppCompatDelegate.MODE_NIGHT_NO, "Dark" to AppCompatDelegate.MODE_NIGHT_YES)
 
     @Inject
     @SettingDataStore
