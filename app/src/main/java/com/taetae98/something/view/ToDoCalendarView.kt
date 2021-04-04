@@ -40,7 +40,6 @@ class ToDoCalendarView : MaterialCardView {
         viewPagerAdapter.notifyDataSetChanged()
     }
 
-    var onDateChangeListener: ((Time) -> Unit)? = null
     var onDateClickListener: ((Time) -> Unit)? = null
 
     init {
@@ -79,7 +78,6 @@ class ToDoCalendarView : MaterialCardView {
             }
 
             current = time
-            onDateChangeListener?.invoke(time)
         }
     }
 
@@ -103,6 +101,23 @@ class ToDoCalendarView : MaterialCardView {
         }
 
         inner class CalendarHolder(binding: HolderCalendarBinding) : BaseHolder<HolderCalendarBinding, Time>(binding) {
+            private val beginTime: Time
+                get() {
+                    return Time(element.timeInMillis).apply {
+                        set(Calendar.DAY_OF_MONTH, 1)
+                        add(Calendar.DAY_OF_MONTH, 1 - get(Calendar.DAY_OF_WEEK))
+                    }
+                }
+
+            private val rows: List<GridLayout>
+                get() {
+                    return arrayListOf<View>().apply {
+                        itemView.findViewsWithText(this, "row", View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
+                    }.map {
+                        it as GridLayout
+                    }
+                }
+
             init {
                 binding.setOnDateChange {
                     DatePickerDialog(context, { _, year, month, dayOfMonth ->
@@ -110,7 +125,7 @@ class ToDoCalendarView : MaterialCardView {
                     }, current.year, current.month, current.dayOfMonth).show()
                 }
 
-                getRowView().forEachIndexed { y, view ->
+                rows.forEachIndexed { y, view ->
                     val detector = GestureDetector(context, object : GestureDetector.OnGestureListener {
                         override fun onDown(e: MotionEvent?): Boolean {
                             return true
@@ -122,7 +137,7 @@ class ToDoCalendarView : MaterialCardView {
 
                         override fun onSingleTapUp(e: MotionEvent): Boolean {
                             val x = (e.x / (view.width / 7)).toInt()
-                            val time = getBeginTime().apply { dayOfMonth += (y * 7 + x) }
+                            val time = beginTime.apply { dayOfMonth += (y * 7 + x) }
                             setTime(time)
                             onDateClickListener?.invoke(time)
                             return true
@@ -140,6 +155,7 @@ class ToDoCalendarView : MaterialCardView {
                             return true
                         }
                     })
+
                     view.setOnTouchListener { _, event ->
                         view.performClick()
                         detector.onTouchEvent(event)
@@ -155,21 +171,6 @@ class ToDoCalendarView : MaterialCardView {
                 bindToDo()
             }
 
-            private fun getBeginTime(): Time {
-                return Time(element.timeInMillis).apply {
-                    set(Calendar.DAY_OF_MONTH, 1)
-                    add(Calendar.DAY_OF_MONTH, 1 - get(Calendar.DAY_OF_WEEK))
-                }
-            }
-
-            private fun getRowView(): List<GridLayout> {
-                val arrayList = arrayListOf<View>().apply {
-                    itemView.findViewsWithText(this, "row", View.FIND_VIEWS_WITH_CONTENT_DESCRIPTION)
-                }
-
-                return List(arrayList.size) { arrayList[it] as GridLayout }
-            }
-
             private fun setTodayDayView(view: TextView, time: Time) {
                 with(view) {
                     setBackgroundResource(R.drawable.ic_circle)
@@ -180,7 +181,6 @@ class ToDoCalendarView : MaterialCardView {
                     alpha = if (time.month == element.month) 1.0F else 0.3F
                     setTextColor(context.getColor(outValue.resourceId))
                 }
-
             }
 
             private fun setDayView(view: TextView, time: Time) {
@@ -209,9 +209,7 @@ class ToDoCalendarView : MaterialCardView {
             }
 
             private fun bindDay() {
-                val time = getBeginTime()
-                val rows = getRowView()
-
+                val time = beginTime
                 val today = Time(System.currentTimeMillis())
                 for (gridLayout in rows) {
                     for (i in 0 until 7) {
@@ -229,9 +227,7 @@ class ToDoCalendarView : MaterialCardView {
             }
 
             private fun bindToDo() {
-                val begin = getBeginTime()
-                val rows = getRowView()
-
+                val begin = beginTime
                 for (gridLayout in rows) {
                     val end = Time(begin.timeInMillis).apply { dayOfMonth += 6 }
                     val list = todoList.filter {

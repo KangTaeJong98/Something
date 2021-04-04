@@ -14,6 +14,7 @@ import com.taetae98.something.databinding.DialogTodoDateBinding
 import com.taetae98.something.dto.ToDo
 import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.utility.DataBinding
+import com.taetae98.something.utility.Time
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -38,7 +39,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dialog?.window?.attributes?.windowAnimations = R.style.Theme_Something_ToDo_Date_Dialog
+        setDialogTheme(R.style.Theme_Something_ToDo_Date_Dialog)
         onCreateToDoList()
     }
 
@@ -89,7 +90,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
 
     private fun onCreateOnAdd() {
         binding.setOnAdd {
-            findNavController().navigate(ToDoDateDialogDirections.actionToDoDateDialogToTodoEditFragment(ToDo(hasTerm = true, beginTime = time, endTime = time)))
+            findNavController().navigate(ToDoDateDialogDirections.actionToDoDateDialogToTodoEditFragment(ToDo(hasTerm = true, beginTime = Time(time.timeInMillis), endTime = Time(time.timeInMillis))))
         }
     }
 }

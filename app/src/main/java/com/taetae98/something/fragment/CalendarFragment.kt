@@ -12,8 +12,9 @@ import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.utility.DataBinding
 import com.taetae98.something.utility.Time
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -65,25 +66,20 @@ class CalendarFragment : BaseFragment(), DataBinding<FragmentCalendarBinding> {
     }
 
     private fun onCreateCalendarView() {
+        val showFinishedToDo = runBlocking(Dispatchers.IO) { settingRepository.getCalendarShowFinishedToDo().first() }
         toDoRepository.selectToDoLiveData().observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.IO).launch {
-                val value = settingRepository.getCalendarShowFinishedToDo().first()
-                withContext(Dispatchers.Main) {
-                    if (value) {
-                        binding.todoCalendar.todoList = it.filter { todo ->
-                            todo.hasTerm
-                        }
-                    } else {
-                        binding.todoCalendar.todoList = it.filter { todo ->
-                            todo.hasTerm && !todo.isFinished
-                        }
-                    }
+            if (showFinishedToDo) {
+                binding.todoCalendar.todoList = it.filter { todo ->
+                    todo.hasTerm
+                }
+            } else {
+                binding.todoCalendar.todoList = it.filter { todo ->
+                    todo.hasTerm && !todo.isFinished
                 }
             }
         }
 
         binding.todoCalendar.onDateClickListener = {
-            val showFinishedToDo = runBlocking { settingRepository.getCalendarShowFinishedToDo().first() }
             findNavController().navigate(CalendarFragmentDirections.actionCalendarFragmentToToDoDateDialog(it, showFinishedToDo))
         }
     }

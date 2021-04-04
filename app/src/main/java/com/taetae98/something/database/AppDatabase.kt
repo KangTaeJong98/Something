@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.taetae98.something.DATABASE_NAME
 import com.taetae98.something.dto.Drawer
 import com.taetae98.something.dto.ToDo
 import com.taetae98.something.utility.TimeTypeConverter
@@ -18,6 +17,8 @@ import kotlinx.coroutines.launch
 @TypeConverters(TimeTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
+        private const val DATABASE_NAME = "something.db"
+
         @Volatile
         private var instance: AppDatabase? = null
 
