@@ -13,7 +13,7 @@ abstract class BaseDialog : DialogFragment() {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(color))
     }
 
-    protected fun setDialogTheme(resId: Int) {
+    protected fun setAnimation(resId: Int) {
         dialog?.window?.attributes?.windowAnimations = resId
     }
 }

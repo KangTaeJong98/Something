@@ -39,7 +39,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setDialogTheme(R.style.Theme_Something_ToDo_Date_Dialog)
+        setAnimation(R.style.Theme_Something_ToDo_Date_Dialog)
         onCreateToDoList()
     }
 
