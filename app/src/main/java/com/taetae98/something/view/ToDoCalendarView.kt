@@ -30,16 +30,25 @@ class ToDoCalendarView : MaterialCardView {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
+    /*
+    좌우 스크롤을 사용해서 달력을 표시하기 위해 ViewPager 사용.
+    ViewPager2의 ListAdapter형식으로 달력을 표시한다.
+     */
     private val viewPager by lazy { ViewPager2(context) }
     private val viewPagerAdapter by lazy { CalendarViewAdapter() }
 
+
+    // 현재 ViewPager의 Position과 ViewPager가 나타내는 Page의 Time
     private var currentPosition = Int.MAX_VALUE / 2
     private var current = Time()
 
+    // CalendarView에 표시하는 ToDo List
+    // Delegates.observable를 사용하여 List가 변경되면 ViewPager를 업데이트한다.
     var todoList by Delegates.observable(emptyList<ToDo>()) { _, _, _ ->
         viewPagerAdapter.notifyDataSetChanged()
     }
 
+    // CalendarView의 Date를 선택했을 때 실행되는 Callback
     var onDateClickListener: ((Time) -> Unit)? = null
 
     init {
@@ -48,6 +57,9 @@ class ToDoCalendarView : MaterialCardView {
             setCurrentItem(currentPosition, false)
             registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    /*
+                    페이지가 변경됐을 때 currentPosition, current를 업데이트한다.
+                     */
                     super.onPageSelected(position)
                     if (currentPosition != position) {
                         current.month += position - currentPosition
@@ -61,6 +73,11 @@ class ToDoCalendarView : MaterialCardView {
     }
 
     fun setTime(time: Time) {
+        /*
+        년도와 월을 비교하여 notifyItemChanged를 현재 보는 화면이 바꼈을 때만 호출한다.
+        갱신된 Time이 현재보다 느리면 --, 빠르면 ++을 사용한다.
+        setCurrentItem으로 Position을 바꾸고 smoothScroll을 true로 주면서 ViewPager의 Animation을 사용할 수 있다.
+         */
         if (current != time) {
             if (current.year != time.year || current.month != time.month) {
                 if (current.before(time)) {
