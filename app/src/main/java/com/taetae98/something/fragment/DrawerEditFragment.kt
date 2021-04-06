@@ -16,6 +16,9 @@ import com.taetae98.something.databinding.FragmentDrawerEditBinding
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.utility.DataBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +61,13 @@ class DrawerEditFragment : BaseFragment(), DataBinding<FragmentDrawerEditBinding
             }
 
             drawer.name = binding.nameInputLayout.editText!!.text.toString()
-            drawerRepository.insertDrawer(drawer)
+            CoroutineScope(Dispatchers.IO).launch {
+                if (drawerRepository.selectDrawerWithId(drawer.id).isPresent) {
+                    drawerRepository.updateDrawer(drawer)
+                } else {
+                    drawerRepository.insertDrawer(drawer)
+                }
+            }
 
             findNavController().navigateUp()
         }

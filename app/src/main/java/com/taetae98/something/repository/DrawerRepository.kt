@@ -6,6 +6,7 @@ import com.taetae98.something.dto.Drawer
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -29,6 +30,10 @@ class DrawerRepository @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             drawerDao.delete(drawer)
         }
+    }
+
+    suspend fun selectDrawerWithId(id: Long): Optional<Drawer> {
+        return drawerDao.selectWithId(id)
     }
 
     suspend fun select(): List<Drawer> {
