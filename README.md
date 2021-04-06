@@ -42,21 +42,25 @@ https://play.google.com/store/apps/details?id=com.taetae98.something
 * ItemTouchHelper를 사용하여 ToDo를 Swipe시 완료/삭제 처리
 
 ### Room : ToDo, Drawer를 저장할 때 사용
-* #### AppDatabase Class를 Singleton Pattern을 적용해서 사용
-* #### addCallback을 통해 처음 사용하는 사용자에게 앱 사용법을 ToDo 목록으로 설명
-* #### ForeignKey를 통해 ToDo와 Drawer의 관계를 설정
+* AppDatabase Class를 Singleton Pattern을 적용해서 사용
+* addCallback을 통해 처음 사용하는 사용자에게 앱 사용법을 ToDo 목록으로 설명
+* ForeignKey를 통해 ToDo와 Drawer의 관계를 설정
 
 ### ViewModel : ToDo, Drawer를 ViewModel로 관리
-* #### ViewModel, LiveData를 결합하여 ToDo와 Drawer를 관리
+* ViewModel, LiveData를 결합하여 ToDo와 Drawer를 관리
 
 ### Navigation : UI 대상을 전환할 때 사용
-* #### Fragment간 전환시 Animation 적용
-* #### DrawerLayout, NavigationView를 Navigation과 결합하여 사용
+* Fragment간 전환시 Animation 적용
+* DrawerLayout, NavigationView를 Navigation과 결합하여 사용
 
 ### Hilt : Room, DataStore, ToDoAdapter, DrawerAdapter 등 여러 항목을 DI로 전달
-* #### ToDoRepository, DrawerRepository와 ViewModel을 결합하여 Room을 효율적으로 접근
-* #### SettingRepository로 DataStore를 효율적으로 접근
+* ToDoRepository, DrawerRepository와 ViewModel을 결합하여 Room을 효율적으로 접근
+* SettingRepository로 DataStore를 효율적으로 접근
 
 ### DataStore : 사용자의 설정을 저장할 때 사용
-* #### SharedPreferences의 단점을 보완한 DataStore를 사용하여 사용자의 설정을 저장
+* SharedPreferences의 단점을 보완한 DataStore를 사용하여 사용자의 설정을 저장
 
+## 😊 Screenshot
+<img src="./readme/todo_fragment.png" alt="todo_fragment.png" width="25%"><img src="./readme/todo_edit_fragment.png" alt="todo_edit_fragment.png" width="25%"><img src="./readme/calendar_fragment.png" alt="calendar_fragment.png" width="25%"><img src="./readme/todo_date_dialog.png" alt="todo_date_dialog.png" width="25%">  
+<img src="./readme/drawer_fragment.png" alt="drawer_fragment.png" width="25%"><img src="./readme/drawer_edit_fragment.png" alt="drawer_edit_fragment.png" width="25%"><img src="./readme/finished_todo_fragment.png" alt="finished_todo_fragment.png" width="25%"><img src="./readme/setting_fragment.png" alt="setting_fragment.png" width="25%">  
+<img src="./readme/drawer.png" alt="drawer.png" width="25%"><img src="./readme/darkmode.png" alt="darkmode.png" width="25%"><img src="./readme/notification.png" alt="notification.png" width="25%">
