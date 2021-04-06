@@ -37,9 +37,9 @@ https://play.google.com/store/apps/details?id=com.taetae98.something
 
 ## 📘 Library
 ### RecyclerView : ToDo, Drawer 목록을 표현할 때 사용
-* #### setHasStableIds와 ItemCallback을 사용하여 성능을 향상시킴
-* #### ItemDecoration을 사용하여 ViewHolder간 Margin을 일정하게 처리
-* #### ItemTouchHelper를 사용하여 ToDo를 Swipe시 완료/삭제 처리
+* setHasStableIds와 ItemCallback을 사용하여 성능을 향상시킴
+* ItemDecoration을 사용하여 ViewHolder간 Margin을 일정하게 처리
+* ItemTouchHelper를 사용하여 ToDo를 Swipe시 완료/삭제 처리
 
 ### Room : ToDo, Drawer를 저장할 때 사용
 * #### AppDatabase Class를 Singleton Pattern을 적용해서 사용
