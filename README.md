@@ -35,6 +35,10 @@ https://play.google.com/store/apps/details?id=com.taetae98.something
 #### Use Jetpack Architecture Navigation and Drawer Layout to provide a simple and clean UI and provide animation in the movement between UI targets.
 <img src="./readme/ui_store.png" alt="ui.png" width="80%">
 
+### System에 맞는 언어 제공
+#### String Resource를 사용해서 System에 맞는 언어를 제공합니다.
+<img src="./readme/language.png" alt="ui.png" width="80%">
+
 ## 📘 Library
 ### RecyclerView : ToDo, Drawer 목록을 표현할 때 사용
 * setHasStableIds와 ItemCallback을 사용하여 성능을 향상시킴
