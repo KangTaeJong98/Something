@@ -4,60 +4,71 @@ import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
 
-class Time() : GregorianCalendar(), Parcelable {
-    var year: Int
+class Time : Parcelable, Comparable<Time> {
+    private val calendar: GregorianCalendar = GregorianCalendar()
+
+    var timeInMillis: Long
         get() {
-            return get(YEAR)
+            return calendar.timeInMillis
         }
         set(value) {
-            set(Calendar.YEAR, value)
+            calendar.timeInMillis = value
+        }
+
+    var year: Int
+        get() {
+            return calendar.get(Calendar.YEAR)
+        }
+        set(value) {
+            calendar.set(Calendar.YEAR, value)
         }
 
     var month: Int
         get() {
-            return get(MONTH)
+            return calendar.get(Calendar.MONTH)
         }
         set(value) {
-            set(Calendar.MONTH, value)
+            calendar.set(Calendar.MONTH, value)
         }
 
     var dayOfMonth: Int
         get() {
-            return get(DAY_OF_MONTH)
+            return calendar.get(Calendar.DAY_OF_MONTH)
         }
         set(value) {
-            set(Calendar.DAY_OF_MONTH, value)
+            calendar.set(Calendar.DAY_OF_MONTH, value)
         }
 
     var dayOfWeek: Int
         get() {
-            return get(DAY_OF_WEEK)
+            return calendar.get(Calendar.DAY_OF_WEEK)
         }
         set(value) {
-            set(Calendar.DAY_OF_WEEK, value)
+            calendar.set(Calendar.DAY_OF_WEEK, value)
         }
 
-    constructor(parcel: Parcel) : this() {
-        timeInMillis = parcel.readLong()
-    }
-
-    init {
+    constructor() {
+        timeInMillis = System.currentTimeMillis()
         init()
     }
 
-    constructor(time: Long) : this() {
+    constructor(time: Long = System.currentTimeMillis()) {
         timeInMillis = time
         init()
     }
 
-    private fun init() {
-        set(HOUR_OF_DAY, 0)
-        set(MINUTE, 0)
-        set(SECOND, 0)
-        set(MILLISECOND, 0)
+    override fun compareTo(other: Time): Int {
+        return compareValues(timeInMillis, other.timeInMillis)
     }
 
-    override fun set(field: Int, value: Int) {
+    private fun init() {
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+    }
+
+    fun set(field: Int, value: Int) {
         GregorianCalendar(year, month, dayOfMonth).apply {
             add(field, value - get(field))
         }.also {
@@ -65,7 +76,9 @@ class Time() : GregorianCalendar(), Parcelable {
         }
     }
 
-
+    constructor(parcel: Parcel) {
+        timeInMillis = parcel.readLong()
+    }
 
     override fun describeContents(): Int {
         return 0

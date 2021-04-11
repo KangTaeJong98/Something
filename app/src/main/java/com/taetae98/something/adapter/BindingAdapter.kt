@@ -48,10 +48,10 @@ object BindingAdapter {
         val locale = LocaleFactory.getLocale()
         if (locale == Locale.ENGLISH) {
             val format = SimpleDateFormat("MMM yyyy", Locale.ENGLISH)
-            view.text = format.format(time.time)
+            view.text = format.format(time.timeInMillis)
         } else {
             val format = SimpleDateFormat("yyyy. MM.", Locale.KOREAN)
-            view.text = format.format(time.time)
+            view.text = format.format(time.timeInMillis)
         }
     }
 }

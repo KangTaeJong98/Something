@@ -80,7 +80,7 @@ class ToDoCalendarView : MaterialCardView {
          */
         if (current != time) {
             if (current.year != time.year || current.month != time.month) {
-                if (current.before(time)) {
+                if (current < time) {
                     current = time
                     currentPosition++
                     viewPager.setCurrentItem(currentPosition, true)
@@ -121,8 +121,8 @@ class ToDoCalendarView : MaterialCardView {
             private val beginTime: Time
                 get() {
                     return Time(element.timeInMillis).apply {
-                        set(Calendar.DAY_OF_MONTH, 1)
-                        add(Calendar.DAY_OF_MONTH, 1 - get(Calendar.DAY_OF_WEEK))
+                        dayOfMonth = 1
+                        dayOfMonth += 1 - dayOfWeek
                     }
                 }
 
@@ -335,7 +335,7 @@ class ToDoCalendarView : MaterialCardView {
         }
 
         override fun areContentsTheSame(oldItem: Time, newItem: Time): Boolean {
-            return oldItem == newItem
+            return oldItem.timeInMillis == newItem.timeInMillis
         }
     }
 }

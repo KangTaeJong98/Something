@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="backup_type">
+        <item>@string/replace</item>
+        <item>@string/add</item>
+    </string-array>
+</resources>

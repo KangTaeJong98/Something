@@ -35,7 +35,15 @@ class ToDoRepository @Inject constructor(
         return todoDao.selectLiveData()
     }
 
+    suspend fun insertToDo(vararg todo: ToDo) {
+        todoDao.insert(*todo)
+    }
+
     suspend fun selectWithDrawer(drawerId: Long): List<ToDo> {
         return todoDao.selectWithDrawer(drawerId)
+    }
+
+    suspend fun selectToDo(): List<ToDo> {
+        return todoDao.selectToDo()
     }
 }

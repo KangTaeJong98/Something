@@ -13,20 +13,26 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.database.*
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentSettingBinding
 import com.taetae98.something.dto.Drawer
+import com.taetae98.something.dto.ToDo
+import com.taetae98.something.repository.AccountRepository
 import com.taetae98.something.repository.DrawerRepository
 import com.taetae98.something.repository.SettingRepository
+import com.taetae98.something.repository.ToDoRepository
 import com.taetae98.something.service.StickyService
 import com.taetae98.something.utility.DataBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -34,10 +40,45 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
     override val binding: FragmentSettingBinding by lazy { DataBinding.get(this, R.layout.fragment_setting) }
 
     @Inject
+    lateinit var todoRepository: ToDoRepository
+
+    @Inject
     lateinit var drawerRepository: DrawerRepository
 
     @Inject
     lateinit var settingRepository: SettingRepository
+
+    @Inject
+    lateinit var accountRepository: AccountRepository
+
+    companion object {
+        private const val BACKUP = 1000
+        private const val RESTORE = 1001
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == BACKUP || requestCode == RESTORE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                firebaseAuthWithGoogle(account.idToken!!)
+                runBlocking(Dispatchers.IO) {
+                    accountRepository.setEmail(account.email!!)
+                }
+                when(requestCode) {
+                    BACKUP -> {
+                        onBackup()
+                    }
+                    RESTORE -> {
+                        onRestore()
+                    }
+                }
+            } catch (e: ApiException) {
+                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -48,6 +89,8 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
         onCreateToDoDefaultDrawer()
         onCreateCalendarShowFinishedToDo()
         onCreateStickySwitch()
+        onCreateOnBackup()
+        onCreateOnRestore()
         return binding.root
     }
 
@@ -194,5 +237,172 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                 }
             }
         }
+    }
+
+    private fun onCreateOnBackup() {
+        binding.setOnBackup {
+            if (accountRepository.getEmail().isNotBlank()) {
+                onBackup()
+            } else {
+                onGoogleLogin(BACKUP)
+
+            }
+        }
+    }
+
+    private fun onCreateOnRestore() {
+        binding.setOnRestore {
+            if (accountRepository.getEmail().isNotBlank()) {
+                onRestore()
+            } else {
+                onGoogleLogin(RESTORE)
+
+            }
+        }
+    }
+
+    private fun onBackup() {
+        AlertDialog.Builder(requireContext()).apply {
+            val array = resources.getStringArray(R.array.backup_type)
+            val storePath = accountRepository.getEmail()
+                .replace(".", "")
+                .replace("#", "")
+                .replace("$", "")
+                .replace("[", "")
+                .replace("]", "")
+
+            setItems(array) { _, pos ->
+                when(array[pos]) {
+                    getString(R.string.replace) -> {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(todoRepository.selectToDo().onEach {
+                                it.id = 0L
+                            })
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    getString(R.string.add) -> {
+                        FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    val localToDo = todoRepository.selectToDo()
+                                    val firebaseToDo = snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})
+
+                                    val sumToDo = ArrayList<ToDo>().apply {
+                                        addAll(localToDo)
+                                        firebaseToDo?.let { list -> addAll(list) }
+
+                                        sortWith { o1, o2 ->
+                                            when {
+                                                o1.isOnTop != o2.isOnTop -> {
+                                                    compareValues(o1.isOnTop, o2.isOnTop)
+                                                }
+                                                o1.beginTime.timeInMillis != o2.beginTime.timeInMillis -> {
+                                                    compareValues(o1.beginTime.timeInMillis, o2.beginTime.timeInMillis)
+                                                }
+                                                else -> {
+                                                    compareValues(o1.endTime.timeInMillis, o2.endTime.timeInMillis)
+                                                }
+                                            }
+                                        }
+                                    }
+                                    FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(sumToDo.onEach {
+                                        it.id = 0L
+                                    })
+                                    withContext(Dispatchers.Main) {
+                                        Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    }
+                }
+            }
+        }.show()
+    }
+
+    private fun onRestore() {
+        AlertDialog.Builder(requireContext()).apply {
+            val array = resources.getStringArray(R.array.backup_type)
+            val storePath = accountRepository.getEmail()
+                .replace(".", "")
+                .replace("#", "")
+                .replace("$", "")
+                .replace("[", "")
+                .replace("]", "")
+
+            setItems(array) { _, pos ->
+                when(array[pos]) {
+                    getString(R.string.replace) -> {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            todoRepository.selectToDo().forEach {
+                                todoRepository.deleteToDo(it)
+                            }
+
+                            FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.let {
+                                            it.forEach { todo ->
+                                                todoRepository.insertToDo(todo)
+                                            }
+                                        }
+                                        withContext(Dispatchers.Main) {
+                                            Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                        }
+                                    }
+                                }
+
+                                override fun onCancelled(error: DatabaseError) {
+                                    Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                                }
+                            })
+                        }
+                    }
+                    getString(R.string.add) -> {
+                        FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.forEach {
+                                        todoRepository.insertToDo(it)
+                                    }
+
+                                    withContext(Dispatchers.Main) {
+                                        Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                            }
+                        })
+                    }
+                }
+            }
+        }.show()
+    }
+
+    private fun onGoogleLogin(action: Int) {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        val googleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+        val signInIntent = googleSignInClient.signInIntent
+
+        startActivityForResult(signInIntent, action)
+    }
+
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance().signInWithCredential(credential)
     }
 }

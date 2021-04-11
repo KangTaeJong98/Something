@@ -45,4 +45,7 @@
     <string name="friday">F</string>
     <string name="saturday">S</string>
     <string name="today">Today</string>
+    <string name="backup">Backup</string>
+    <string name="restore">Restore</string>
+    <string name="replace">Replace</string>
 </resources>
