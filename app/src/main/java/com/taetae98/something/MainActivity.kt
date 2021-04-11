@@ -79,7 +79,7 @@ class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
             notificationManager.createNotificationChannel()
         }
 
-        todoRepository.selectToDoLiveData().observe(this) {
+        todoRepository.selectLiveData().observe(this) {
             notificationManager.notificationToDo(it.filter { todo ->
                 todo.isNotification && !todo.isFinished
             })

@@ -43,7 +43,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
     }
 
     private fun onCreateToDoList() {
-        todoRepository.selectToDoLiveData().observe(this) {
+        todoRepository.selectLiveData().observe(this) {
             todoAdapter.submitList(
                 it.filter { todo ->
                     if (showFinishedToDo) {

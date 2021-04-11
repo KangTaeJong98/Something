@@ -49,17 +49,17 @@ class ToDoAdapter @Inject constructor(
 
                 if (element.isFinished) {
                     menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.set_not_finished)).setOnMenuItemClickListener {
-                        todoRepository.updateToDo(element.copy(isFinished = false))
+                        todoRepository.update(element.copy(isFinished = false))
                         true
                     }
                 } else {
                     menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.set_finished)).setOnMenuItemClickListener {
-                        todoRepository.updateToDo(element.copy(isFinished = true))
+                        todoRepository.update(element.copy(isFinished = true))
                         true
                     }
                 }
                 menu.add(Menu.NONE, Menu.NONE, Menu.NONE, context.getString(R.string.delete)).setOnMenuItemClickListener {
-                    todoRepository.deleteToDo(element)
+                    todoRepository.delete(element)
                     true
                 }
             }

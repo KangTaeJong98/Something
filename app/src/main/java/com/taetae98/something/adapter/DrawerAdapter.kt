@@ -53,7 +53,7 @@ class DrawerAdapter @Inject constructor(
                         setTitle(R.string.delete)
                         setMessage(R.string.delete_with_todo)
                         setNegativeButton(R.string.no) { _, _ ->
-                            drawerRepository.deleteDrawer(element)
+                            drawerRepository.delete(element)
                             CoroutineScope(Dispatchers.IO).launch {
                                 if (settingRepository.getToDoDefaultDrawer().first() == element.id) {
                                     settingRepository.setToDoDefaultDrawer(null)
@@ -64,11 +64,11 @@ class DrawerAdapter @Inject constructor(
                         setPositiveButton(R.string.yes) { _, _ ->
                             CoroutineScope(Dispatchers.IO).launch {
                                 todoRepository.selectWithDrawer(element.id).forEach {
-                                    todoRepository.deleteToDo(it)
+                                    todoRepository.delete(it)
                                 }
                             }
 
-                            drawerRepository.deleteDrawer(element)
+                            drawerRepository.delete(element)
                             CoroutineScope(Dispatchers.IO).launch {
                                 if (settingRepository.getToDoDefaultDrawer().first() == element.id) {
                                     settingRepository.setToDoDefaultDrawer(null)

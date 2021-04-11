@@ -11,5 +11,5 @@ class ToDoViewModel @Inject constructor(
         private val todoRepository: ToDoRepository,
         private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
-    val todoLiveData = todoRepository.selectToDoLiveData()
+    val todoLiveData = todoRepository.selectLiveData()
 }

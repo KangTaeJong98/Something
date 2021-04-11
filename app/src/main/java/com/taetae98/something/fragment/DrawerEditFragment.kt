@@ -61,10 +61,10 @@ class DrawerEditFragment : BaseFragment(), DataBinding<FragmentDrawerEditBinding
 
             drawer.name = binding.nameInputLayout.editText!!.text.toString()
             CoroutineScope(Dispatchers.IO).launch {
-                if (drawerRepository.selectDrawerWithId(drawer.id).isPresent) {
-                    drawerRepository.updateDrawer(drawer)
+                if (drawerRepository.selectById(drawer.id).isPresent) {
+                    drawerRepository.update(drawer)
                 } else {
-                    drawerRepository.insertDrawer(drawer)
+                    drawerRepository.insert(drawer)
                 }
             }
 

@@ -66,7 +66,7 @@ class CalendarFragment : BaseFragment(), DataBinding<FragmentCalendarBinding> {
 
     private fun onCreateCalendarView() {
         val showFinishedToDo = runBlocking(Dispatchers.IO) { settingRepository.getCalendarShowFinishedToDo().first() }
-        toDoRepository.selectToDoLiveData().observe(viewLifecycleOwner) {
+        toDoRepository.selectLiveData().observe(viewLifecycleOwner) {
             if (showFinishedToDo) {
                 binding.todoCalendar.todoList = it.filter { todo ->
                     todo.hasTerm

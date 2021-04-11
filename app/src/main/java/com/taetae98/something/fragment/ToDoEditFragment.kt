@@ -178,7 +178,7 @@ class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
                 }
             }
 
-            todoRepository.insertToDo(todo)
+            todoRepository.insert(todo)
             findNavController().navigateUp()
         }
     }

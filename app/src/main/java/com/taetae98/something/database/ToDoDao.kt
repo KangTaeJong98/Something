@@ -19,5 +19,5 @@ interface ToDoDao : BaseDao<ToDo> {
     suspend fun selectWithDrawer(drawerId: Long): List<ToDo>
 
     @Query("SELECT * FROM ToDo $ORDER")
-    suspend fun selectToDo(): List<ToDo>
+    suspend fun select(): List<ToDo>
 }

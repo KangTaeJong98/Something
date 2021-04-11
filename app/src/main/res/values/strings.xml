@@ -48,4 +48,6 @@
     <string name="backup">Backup</string>
     <string name="restore">Restore</string>
     <string name="replace">Replace</string>
+    <string name="google_login_fail">Google login fail.</string>
+    <string name="database_connect_fail">Database connnect fail.</string>
 </resources>

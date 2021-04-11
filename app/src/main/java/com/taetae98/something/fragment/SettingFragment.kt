@@ -75,7 +75,7 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                     }
                 }
             } catch (e: ApiException) {
-                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), R.string.google_login_fail, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -275,9 +275,8 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                 when(array[pos]) {
                     getString(R.string.replace) -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(todoRepository.selectToDo().onEach {
-                                it.id = 0L
-                            })
+                            FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(todoRepository.select())
+                            FirebaseDatabase.getInstance().getReference(storePath).child("drawer").setValue(drawerRepository.select())
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
                             }
@@ -287,38 +286,52 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                         FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    val localToDo = todoRepository.selectToDo()
+                                    val localToDo = todoRepository.select()
+                                    val maxToDoId = localToDo.maxOf { it.id }
                                     val firebaseToDo = snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})
 
-                                    val sumToDo = ArrayList<ToDo>().apply {
-                                        addAll(localToDo)
-                                        firebaseToDo?.let { list -> addAll(list) }
+                                    FirebaseDatabase.getInstance().getReference(storePath).child("drawer").addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            CoroutineScope(Dispatchers.IO).launch {
+                                                val localDrawer = drawerRepository.select()
+                                                val maxDrawerId = localDrawer.maxOf { it.id }
+                                                val firebaseDrawer = snapshot.getValue(object : GenericTypeIndicator<List<Drawer>>(){})?.onEach {
+                                                    it.id += maxDrawerId
+                                                }
+                                                firebaseToDo?.onEach {
+                                                    it.id += maxToDoId
+                                                    if (it.drawerId != null) {
+                                                        it.drawerId = it.drawerId!! + maxDrawerId
+                                                    }
+                                                }
 
-                                        sortWith { o1, o2 ->
-                                            when {
-                                                o1.isOnTop != o2.isOnTop -> {
-                                                    compareValues(o1.isOnTop, o2.isOnTop)
+                                                val addToDo = ArrayList<ToDo>(localToDo.size + (firebaseToDo?.size ?: 0)).apply {
+                                                    addAll(localToDo)
+                                                    firebaseToDo?.let { addAll(it) }
                                                 }
-                                                o1.beginTime.timeInMillis != o2.beginTime.timeInMillis -> {
-                                                    compareValues(o1.beginTime.timeInMillis, o2.beginTime.timeInMillis)
+
+                                                val addDrawer = ArrayList<Drawer>(localDrawer.size + (firebaseDrawer?.size ?: 0)).apply {
+                                                    addAll(localDrawer)
+                                                    firebaseDrawer?.let { addAll(it) }
                                                 }
-                                                else -> {
-                                                    compareValues(o1.endTime.timeInMillis, o2.endTime.timeInMillis)
+
+                                                FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(addToDo)
+                                                FirebaseDatabase.getInstance().getReference(storePath).child("drawer").setValue(addDrawer)
+                                                withContext(Dispatchers.Main) {
+                                                    Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
                                                 }
                                             }
                                         }
-                                    }
-                                    FirebaseDatabase.getInstance().getReference(storePath).child("todo").setValue(sumToDo.onEach {
-                                        it.id = 0L
+
+                                        override fun onCancelled(error: DatabaseError) {
+                                            Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
+                                        }
                                     })
-                                    withContext(Dispatchers.Main) {
-                                        Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
-                                    }
                                 }
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
                             }
                         })
                     }
@@ -341,26 +354,41 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                 when(array[pos]) {
                     getString(R.string.replace) -> {
                         CoroutineScope(Dispatchers.IO).launch {
-                            todoRepository.selectToDo().forEach {
-                                todoRepository.deleteToDo(it)
-                            }
+                            todoRepository.delete()
+                            drawerRepository.delete()
 
-                            FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
+                            FirebaseDatabase.getInstance().getReference(storePath).child("drawer").addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.let {
-                                            it.forEach { todo ->
-                                                todoRepository.insertToDo(todo)
+                                        snapshot.getValue(object : GenericTypeIndicator<List<Drawer>>(){})?.let {
+                                            it.forEach { drawer ->
+                                                drawerRepository.insert(drawer)
                                             }
                                         }
-                                        withContext(Dispatchers.Main) {
-                                            Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
-                                        }
+                                        FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
+                                            override fun onDataChange(snapshot: DataSnapshot) {
+                                                CoroutineScope(Dispatchers.IO).launch {
+                                                    snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.let {
+                                                        it.forEach { todo ->
+                                                            todoRepository.insert(todo)
+                                                        }
+                                                    }
+
+                                                    withContext(Dispatchers.Main) {
+                                                        Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                                    }
+                                                }
+                                            }
+
+                                            override fun onCancelled(error: DatabaseError) {
+                                                Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
+                                            }
+                                        })
                                     }
                                 }
 
                                 override fun onCancelled(error: DatabaseError) {
-                                    Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
                                 }
                             })
                         }
@@ -368,19 +396,40 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                     getString(R.string.add) -> {
                         FirebaseDatabase.getInstance().getReference(storePath).child("todo").addListenerForSingleValueEvent(object : ValueEventListener {
                             override fun onDataChange(snapshot: DataSnapshot) {
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.forEach {
-                                        todoRepository.insertToDo(it)
+                                val firebaseToDo = snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})
+                                FirebaseDatabase.getInstance().getReference(storePath).child("drawer").addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            val localToDo = todoRepository.select()
+                                            val maxToDoId = localToDo.maxOf { it.id }
+                                            val localDrawer = drawerRepository.select()
+                                            val maxDrawerId = localDrawer.maxOf { it.id }
+                                            snapshot.getValue(object : GenericTypeIndicator<List<Drawer>>(){})?.onEach {
+                                                it.id += maxDrawerId
+                                                drawerRepository.insert(it)
+                                            }
+                                            firebaseToDo?.onEach {
+                                                it.id += maxToDoId
+                                                if (it.drawerId != null) {
+                                                    it.drawerId = it.drawerId!! + maxDrawerId
+                                                }
+                                                todoRepository.insert(it)
+                                            }
+
+                                            withContext(Dispatchers.Main) {
+                                                Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                            }
+                                        }
                                     }
 
-                                    withContext(Dispatchers.Main) {
-                                        Toast.makeText(requireContext(), R.string.finish, Toast.LENGTH_LONG).show()
+                                    override fun onCancelled(error: DatabaseError) {
+                                        Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
                                     }
-                                }
+                                })
                             }
 
                             override fun onCancelled(error: DatabaseError) {
-                                Toast.makeText(requireContext(), "Database Connect Fail.", Toast.LENGTH_LONG).show()
+                                Toast.makeText(requireContext(), R.string.database_connect_fail, Toast.LENGTH_LONG).show()
                             }
                         })
                     }

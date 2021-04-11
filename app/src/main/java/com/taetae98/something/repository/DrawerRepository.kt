@@ -14,25 +14,31 @@ import javax.inject.Singleton
 class DrawerRepository @Inject constructor(
     private val drawerDao: DrawerDao
 ) {
-    fun insertDrawer(drawer: Drawer) {
+    fun insert(drawer: Drawer) {
         CoroutineScope(Dispatchers.IO).launch {
             drawerDao.insert(drawer)
         }
     }
 
-    fun updateDrawer(drawer: Drawer) {
+    fun update(drawer: Drawer) {
         CoroutineScope(Dispatchers.IO).launch {
             drawerDao.update(drawer)
         }
     }
 
-    fun deleteDrawer(drawer: Drawer) {
+    fun delete(drawer: Drawer) {
         CoroutineScope(Dispatchers.IO).launch {
             drawerDao.delete(drawer)
         }
     }
 
-    suspend fun selectDrawerWithId(id: Long): Optional<Drawer> {
+    suspend fun delete() {
+        drawerDao.select().forEach {
+            drawerDao.delete(it)
+        }
+    }
+
+    suspend fun selectById(id: Long): Optional<Drawer> {
         return drawerDao.selectWithId(id)
     }
 

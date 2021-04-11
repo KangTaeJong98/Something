@@ -13,37 +13,39 @@ import javax.inject.Singleton
 class ToDoRepository @Inject constructor(
     private val todoDao: ToDoDao
 ) {
-    fun insertToDo(todo: ToDo) {
+    fun insert(todo: ToDo) {
         CoroutineScope(Dispatchers.IO).launch {
             todoDao.insert(todo)
         }
     }
 
-    fun updateToDo(todo: ToDo) {
+    fun update(todo: ToDo) {
         CoroutineScope(Dispatchers.IO).launch {
             todoDao.update(todo)
         }
     }
 
-    fun deleteToDo(todo: ToDo) {
+    fun delete(todo: ToDo) {
         CoroutineScope(Dispatchers.IO).launch {
             todoDao.delete(todo)
         }
     }
 
-    fun selectToDoLiveData(): LiveData<List<ToDo>> {
-        return todoDao.selectLiveData()
+    suspend fun delete() {
+        todoDao.select().forEach {
+            todoDao.delete(it)
+        }
     }
 
-    suspend fun insertToDo(vararg todo: ToDo) {
-        todoDao.insert(*todo)
+    fun selectLiveData(): LiveData<List<ToDo>> {
+        return todoDao.selectLiveData()
     }
 
     suspend fun selectWithDrawer(drawerId: Long): List<ToDo> {
         return todoDao.selectWithDrawer(drawerId)
     }
 
-    suspend fun selectToDo(): List<ToDo> {
-        return todoDao.selectToDo()
+    suspend fun select(): List<ToDo> {
+        return todoDao.select()
     }
 }

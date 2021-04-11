@@ -21,7 +21,7 @@ class SetFinishToDoSnackbar(
         Snackbar.make(view, R.string.set_finish_success, Snackbar.LENGTH_LONG)
                 .setActionTextColor(view.context.resources.getColor(R.color.yellow_green, null))
                 .setAction(R.string.undo) {
-                    todoRepository.updateToDo(todo)
+                    todoRepository.update(todo)
                 }
     }
 

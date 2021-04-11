@@ -21,7 +21,7 @@ class DeleteToDoSnackbar(
         Snackbar.make(view, R.string.delete_success, Snackbar.LENGTH_LONG)
                 .setActionTextColor(view.context.resources.getColor(R.color.yellow_green, null))
                 .setAction(R.string.undo) {
-                    todoRepository.insertToDo(todo)
+                    todoRepository.insert(todo)
                 }
     }
 

@@ -33,10 +33,10 @@ class ToDoRecyclerView : RecyclerView {
                 if (viewHolder is ToDoAdapter.ToDoHolder) {
                     val todo = viewHolder.element
                     if (!todo.isFinished) {
-                        todoRepository.updateToDo(todo.copy(isFinished = true))
+                        todoRepository.update(todo.copy(isFinished = true))
                         SetFinishToDoSnackbar(this@ToDoRecyclerView, todo).show()
                     } else {
-                        todoRepository.deleteToDo(todo)
+                        todoRepository.delete(todo)
                         DeleteToDoSnackbar(this@ToDoRecyclerView, todo).show()
                     }
                 }
