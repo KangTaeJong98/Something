@@ -2,7 +2,6 @@ package com.taetae98.something.fragment
 
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class CalendarFragment : BaseFragment(), DataBinding<FragmentCalendarBinding> {
-    override val binding: FragmentCalendarBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_calendar, null, false) }
+    override val binding: FragmentCalendarBinding by lazy { DataBinding.get(this, R.layout.fragment_calendar) }
 
     @Inject
     lateinit var toDoRepository: ToDoRepository
@@ -57,7 +56,7 @@ class CalendarFragment : BaseFragment(), DataBinding<FragmentCalendarBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

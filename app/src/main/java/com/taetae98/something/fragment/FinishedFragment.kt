@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.taetae98.something.R
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class FinishedFragment : BaseFragment(), DataBinding<FragmentFinishedBinding> {
-    override val binding: FragmentFinishedBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_finished, null, false) }
+    override val binding: FragmentFinishedBinding by lazy { DataBinding.get(this, R.layout.fragment_finished) }
 
     private val todoViewModel by activityViewModels<ToDoViewModel>()
 
@@ -41,7 +40,7 @@ class FinishedFragment : BaseFragment(), DataBinding<FragmentFinishedBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

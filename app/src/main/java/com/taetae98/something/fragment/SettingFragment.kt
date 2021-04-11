@@ -13,7 +13,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import com.taetae98.something.R
 import com.taetae98.something.base.BaseFragment
 import com.taetae98.something.databinding.FragmentSettingBinding
@@ -32,7 +31,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
-    override val binding: FragmentSettingBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_setting, null, false) }
+    override val binding: FragmentSettingBinding by lazy { DataBinding.get(this, R.layout.fragment_setting) }
 
     @Inject
     lateinit var drawerRepository: DrawerRepository
@@ -52,7 +51,7 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

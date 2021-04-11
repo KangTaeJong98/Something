@@ -3,7 +3,6 @@ package com.taetae98.something.fragment
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -25,7 +24,7 @@ import kotlin.properties.Delegates
 
 @AndroidEntryPoint
 class ToDoFragment : BaseFragment(), DataBinding<FragmentTodoBinding> {
-    override val binding: FragmentTodoBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_todo, null, false) }
+    override val binding: FragmentTodoBinding by lazy { DataBinding.get(this, R.layout.fragment_todo) }
 
     private val todoViewModel by activityViewModels<ToDoViewModel>()
     private val args by navArgs<ToDoFragmentArgs>()
@@ -76,7 +75,7 @@ class ToDoFragment : BaseFragment(), DataBinding<FragmentTodoBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

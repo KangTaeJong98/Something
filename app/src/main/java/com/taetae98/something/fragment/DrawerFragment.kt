@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.taetae98.something.R
@@ -19,7 +18,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
-    override val binding: FragmentDrawerBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_drawer, null, false) }
+    override val binding: FragmentDrawerBinding by lazy { DataBinding.get(this, R.layout.fragment_drawer) }
 
     private val drawerViewModel by activityViewModels<DrawerViewModel>()
 
@@ -42,7 +41,7 @@ class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

@@ -4,7 +4,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -23,7 +22,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
-    override val binding: ActivityMainBinding by lazy { DataBindingUtil.setContentView(this, R.layout.activity_main) }
+    override val binding: ActivityMainBinding by lazy { DataBinding.get(this, R.layout.activity_main) }
 
     @Inject
     lateinit var settingRepository: SettingRepository
@@ -60,7 +59,7 @@ class MainActivity : BaseActivity(), DataBinding<ActivityMainBinding> {
         AppCompatDelegate.setDefaultNightMode(settingRepository.themeList[defaultTheme].second)
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

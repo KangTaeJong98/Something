@@ -1,13 +1,8 @@
 package com.taetae98.something.fragment
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +11,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
@@ -33,7 +27,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
-    override val binding: FragmentTodoEditBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_todo_edit, null, false) }
+    override val binding: FragmentTodoEditBinding by lazy { DataBinding.get(this, R.layout.fragment_todo_edit) }
 
     private val args by navArgs<ToDoEditFragmentArgs>()
     private val todo by lazy { args.todo }
@@ -59,7 +53,7 @@ class ToDoEditFragment : BaseFragment(), DataBinding<FragmentTodoEditBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

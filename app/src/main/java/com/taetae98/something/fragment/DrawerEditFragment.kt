@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
@@ -23,7 +22,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class DrawerEditFragment : BaseFragment(), DataBinding<FragmentDrawerEditBinding> {
-    override val binding: FragmentDrawerEditBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.fragment_drawer_edit, null, false) }
+    override val binding: FragmentDrawerEditBinding by lazy { DataBinding.get(this, R.layout.fragment_drawer_edit) }
 
     private val args by navArgs<DrawerEditFragmentArgs>()
     private val drawer by lazy { args.drawer }
@@ -41,7 +40,7 @@ class DrawerEditFragment : BaseFragment(), DataBinding<FragmentDrawerEditBinding
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 

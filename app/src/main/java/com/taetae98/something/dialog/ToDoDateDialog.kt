@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.taetae98.something.R
@@ -20,7 +19,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
-    override val binding: DialogTodoDateBinding by lazy { DataBindingUtil.inflate(layoutInflater, R.layout.dialog_todo_date, null, false) }
+    override val binding: DialogTodoDateBinding by lazy { DataBinding.get(this, R.layout.dialog_todo_date) }
 
     private val args by navArgs<ToDoDateDialogArgs>()
     private val time by lazy { args.time }
@@ -66,7 +65,7 @@ class ToDoDateDialog : BaseDialog(), DataBinding<DialogTodoDateBinding> {
         return binding.root
     }
 
-    override fun onCreateViewDataBinding() {
+    private fun onCreateViewDataBinding() {
         binding.lifecycleOwner = this
     }
 
