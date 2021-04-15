@@ -313,7 +313,6 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button"
-            app:layout_behavior=".utility.FloatingActionButtonScrollBehavior"
             android:onClick="@{onFinish}"
             android:src="@drawable/ic_finish"
             android:contentDescription="@string/finish"

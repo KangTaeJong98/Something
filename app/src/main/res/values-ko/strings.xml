@@ -46,4 +46,9 @@
     <string name="friday">금</string>
     <string name="saturday">토</string>
     <string name="today">오늘</string>
+    <string name="backup">백업</string>
+    <string name="restore">복원</string>
+    <string name="replace">대체</string>
+    <string name="google_login_fail">구글 로그인 실패</string>
+    <string name="database_connect_fail">디비 연결 실패</string>
 </resources>

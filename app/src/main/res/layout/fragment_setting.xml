@@ -223,31 +223,35 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:onClick="@{onBackup}"
                             android:id="@+id/import_title_text_view"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="?attr/onBaseMargin"
-                            android:drawableTint="?attr/onBackground"
+                            android:drawableTint="?attr/onElementBackgroundAccent"
+                            android:onClick="@{onBackup}"
+                            android:padding="10dp"
                             android:text="@string/backup"
+                            android:textColor="?attr/onToDoTitleTextColor"
                             app:drawableEndCompat="@drawable/ic_backup"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/backup_setting_title_text_view" />
 
                         <com.google.android.material.textview.MaterialTextView
-                            android:onClick="@{onRestore}"
-                            android:drawableTint="?attr/onBackground"
-                            app:drawableEndCompat="@drawable/ic_restore"
                             android:id="@+id/export_title_text_view"
-                            android:text="@string/restore"
-                            android:layout_margin="?attr/onBaseMargin"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@id/import_title_text_view"
-                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_margin="?attr/onBaseMargin"
+                            android:drawableTint="?attr/onElementBackgroundAccent"
+                            android:onClick="@{onRestore}"
+                            android:padding="10dp"
+                            android:text="@string/restore"
+                            android:textColor="?attr/onToDoTitleTextColor"
+                            app:drawableEndCompat="@drawable/ic_restore"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/import_title_text_view" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </com.google.android.material.card.MaterialCardView>

@@ -61,6 +61,14 @@ class Time : Parcelable, Comparable<Time> {
         return compareValues(timeInMillis, other.timeInMillis)
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (other is Time) {
+            return timeInMillis == other.timeInMillis
+        }
+
+        return super.equals(other)
+    }
+
     private fun init() {
         calendar.set(Calendar.HOUR_OF_DAY, 0)
         calendar.set(Calendar.MINUTE, 0)
