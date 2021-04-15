@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option java_package = "com.taetae98.something";
+option java_multiple_files = true;
+
+message Account {
+  string email = 1;
+}
