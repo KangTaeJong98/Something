@@ -27,6 +27,7 @@ class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // ViewModel에서 Data를 얻고 처리하는 부분
         drawerViewModel.drawerLiveData.observe(viewLifecycleOwner) {
             drawerAdapter.submitList(it)
         }
@@ -52,6 +53,7 @@ class DrawerFragment : BaseFragment(), DataBinding<FragmentDrawerBinding> {
     private fun onCreateRecyclerView() {
         with(drawerAdapter) {
             onClickCallback = { _, drawer ->
+                // Drawer를 클릭했을 때 ToDoFragment로 이동
                 findNavController().navigate(DrawerFragmentDirections.actionDrawerFragmentToTodoFragment(drawer.id))
             }
             onEditCallback = { _, drawer ->

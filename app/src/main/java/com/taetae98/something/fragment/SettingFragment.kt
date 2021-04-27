@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -371,6 +372,8 @@ class SettingFragment : BaseFragment(), DataBinding<FragmentSettingBinding> {
                                                     snapshot.getValue(object : GenericTypeIndicator<List<ToDo>>(){})?.let {
                                                         it.forEach { todo ->
                                                             todoRepository.insert(todo)
+                                                            Log.d("PASS", "${todo.title} : ${todo.beginTime.timeInMillis} => ${todo.beginTime.year} / ${todo.beginTime.month + 1} / ${todo.beginTime.dayOfMonth}")
+                                                            Log.d("PASS", "${todo.title} : ${todo.beginTime}")
                                                         }
                                                     }
 

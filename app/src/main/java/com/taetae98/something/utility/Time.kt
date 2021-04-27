@@ -14,7 +14,7 @@ class Time : Parcelable, Comparable<Time> {
         set(value) {
             calendar.timeInMillis = value
         }
-
+    
     var year: Int
         get() {
             return calendar.get(Calendar.YEAR)
@@ -94,6 +94,10 @@ class Time : Parcelable, Comparable<Time> {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeLong(timeInMillis)
+    }
+
+    override fun hashCode(): Int {
+        return timeInMillis.hashCode()
     }
 
     companion object CREATOR : Parcelable.Creator<Time> {
